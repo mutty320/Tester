@@ -1,0 +1,110 @@
+{
+  "GROUPS": [
+    {
+      "Camera_group": "floor1",
+      "camera_items": [
+        {
+          "name": "South corner",
+          "id": 8,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        },
+        {
+          "name": "North corner",
+          "id": 9,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+
+    {
+      "Camera_group": "floor2",
+      "camera_items": [
+        {
+          "name": "East corner",
+          "id": 10,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor3",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 11,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor4",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 12,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor5",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 13,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor6",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 14,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor7",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 15,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor8",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 16,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor9",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 17,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    },
+    {
+      "Camera_group": "floor10",
+      "camera_items": [
+        {
+          "name": "West corner",
+          "id": 18,
+          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+        }
+      ]
+    }
+  ]
+}
