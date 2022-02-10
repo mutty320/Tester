@@ -10,93 +10,90 @@ import Camera from "./Camera";
 const Grid = (props) => {
   const initialLayout = 4;
   let camerasToDisplay = [];
-  
+
   const [camerasGrid, setCamerasGrid] = useState([]);
 
   // camerasToDisplay.push(
   //   <Camera
-  //     width={"200px"}  
+  //     width={"200px"}
   //     controls
   //     url={props.cameras[i].camera_items[x].video}
   //     type={"video/mp4"}
   //   />
   // );
 
-  const setAmountVisibility = (amount, visibility) => {
-    const tempCameras = []
-    for (let index = 0; index < camerasGrid.length; index++) {
-      const element = camerasGrid[index];
-      element.visibility = (index <= ( amount-1 ) ? visibility : !visibility)
+  // const setAmountVisibility = (amount, visibility) => {
+  //   const tempCameras = [];
+  //   for (let index = 0; index < camerasGrid.length; index++) {
+  //     const element = camerasGrid[index];
+  //     element.visibility = index <= (amount - 1) ? visibility : !visibility;
 
-      tempCameras.push(element)
-    }
-    setCamerasGrid(tempCameras)
-  }
-  
+  //     tempCameras.push(element);
+  //   }
+  //   setCamerasGrid(tempCameras);
+  // };
+
+  const setAmountVisibility = (amount, visibility) => {
+    setCamerasGrid((prevVisibility) => {
+      const tempCameras = [...prevVisibility];
+      let index;
+      for (index = 0; index < amount; index++) {
+        const element = camerasGrid[index];
+        element.visibility = index <= amount - 1 ? visibility : !visibility;
+
+        tempCameras[index] = element;
+      }
+
+      return tempCameras;
+    });
+  };
+
   useEffect(() => {
     let tempCameras = [];
     let counter = 0;
     for (let i in props.cameras) {
-      for (let x in props.cameras[i].camera_items)
-      {
-        tempCameras.push(
-          {
-            id: props.cameras[i].camera_items[x].id,
-            width: '200px',
-            controls: true,
-            url: props.cameras[i].camera_items[x].video,
-            visibility: (counter < 4),
-          }
-          );
-          counter++;
+      for (let x in props.cameras[i].camera_items) {
+        tempCameras.push({
+          id: props.cameras[i].camera_items[x].id,
+          width: "200px",
+          controls: true,
+          url: props.cameras[i].camera_items[x].video,
+          visibility: counter < 4,
+        });
+        counter++;
       }
     }
 
-    setCamerasGrid(tempCameras);  
-    
+    setCamerasGrid(tempCameras);
+
     console.log(camerasGrid);
-    
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(camerasGrid);
-  },[camerasGrid])
+  }, [camerasGrid]);
 
-  const setInitialLayout = () => {
-    let temp = [];
-
-    for (let i = 0; i < initialLayout; i++) temp.push(camerasToDisplay[i]);
-
-    return temp;
-  };
-
-  const [currArray, setGridSize] = useState(setInitialLayout()); //we will use the state for the grid size variable
-
-  // const p = () => { //dont use! couses an infint loop! every time u re render then the state is changed over and over
-  //   setGridSize(()=>{
+  // const setInitialLayout = () => {
   //   let temp = [];
 
-  //   for (let i = 0; i < 4; i++) temp.push(camerasToDisplay[i]);
+  //   for (let i = 0; i < initialLayout; i++) temp.push(camerasToDisplay[i]);
 
-  //   return temp})
+  //   return temp;
   // };
-  // p()
 
-  const set2= (size) => {
-   for(let i in camerasToDisplay)
-    camerasToDisplay[i].setisVisibale(true)
-  }
+  // const [currArray, setGridSize] = useState(setInitialLayout()); //we will use the state for the grid size variable
 
-  const setGrid = (size) => {
-    setGridSize(() => {
-      console.log(size);
-      let temp = [];
+  // const setGrid = (size) => {
+  //   setGridSize(() => {
+  //     console.log(size);
 
-      for (let i = 0; i < size; i++) temp.push(camerasToDisplay[i]);
+  //     let temp = [];
 
-      return temp;
-    });
-  };
+  //     for (let i = 0; i < size; i++) temp.push(camerasToDisplay[i]);
+
+  //     return temp;
+  //   });
+  // };
 
   {
     /* <li>{<ReactPlayer width="200px"controls url={camera} type="video/mp4" />}</li> */
@@ -104,9 +101,13 @@ const Grid = (props) => {
 
   return (
     <div>
-      {camerasGrid.map((camera) => ( //{camera} reallay is a camera component
-        <Camera key={camera.id} camera={camera}/>
-      ))}
+      {camerasGrid.map(
+        (
+          camera //camera is an object
+        ) => (
+          <Camera key={camera.id} camera={camera} />
+        )
+      )}
 
       <div
         className="btn-toolbar mb-3"
@@ -151,7 +152,7 @@ const Grid = (props) => {
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => setGrid(4)}
+            onClick={() => setAmountVisibility(10, true)}
           >
             <MdOutlineGrid4X4 size="2em" color="#310080" />
           </button>
