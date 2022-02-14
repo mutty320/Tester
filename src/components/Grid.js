@@ -9,6 +9,7 @@ import Camera from "./Camera";
 
 const Grid = (props) => {
   const [camerasGrid, setCamerasGrid] = useState([]);
+  const [largestLayout, setLargestLayout] = useState(4);
   const [currLayout, setCurrLayout] = useState(4);
 
   // let camerasToDisplay = [];
@@ -33,13 +34,15 @@ const Grid = (props) => {
   // };
 
   const setAmountVisibility = (amount, visibility) => {
-    setCurrLayout((prevlLayout) => {
+    setCurrLayout(amount);
+    setLargestLayout((prevlLayout) => {
       return Math.max(prevlLayout, amount);
     });
+
     setCamerasGrid((prevVisibility) => {
       const tempCameras = [...prevVisibility];
 
-      for (let index = 0; index < currLayout; index++) {
+      for (let index = 0; index < largestLayout; index++) {
         let element = camerasGrid[index];
         element.visibility = index <= amount - 1 ? visibility : !visibility;
 
@@ -108,7 +111,7 @@ const Grid = (props) => {
           (
             camera //camera is an object
           ) => (
-            <div class="col-lg-4">
+            <div className={`${currLayout === 4 ? "col-lg-5" : "col-lg-4"}`}>
               <Camera key={camera.id} camera={camera} />
             </div>
           )

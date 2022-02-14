@@ -40,10 +40,10 @@ class App extends React.Component {
   }
 
   handleDragEnd(event) {
-    if (event.detail.items[0].label === "Financial services") {
-      event.preventDefault();
-      return;
-    }
+    // if (event.detail.items[0].label === "Financial services") {
+    //   event.preventDefault();
+    //   return;
+    // }
     if (!event.detail.container.closest("smart-tree")) {
       const textBox = event.detail.target.closest("smart-multiline-text-box");
       if (textBox) {
@@ -110,7 +110,7 @@ class App extends React.Component {
         {/* <ReactPlayer controls url ="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"/> */}
 
         <div>
-          <div class="container">
+          <div className="container">
             <Grid cameras={CameraGroups} />
           </div>
         </div>
