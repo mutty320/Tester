@@ -8,11 +8,11 @@ import { FaForward, FaBackward, FaPlay, FaPause } from "react-icons/fa";
 import Camera from "./Camera";
 
 const Grid = (props) => {
-  const initialLayout = 4;
-  let camerasToDisplay = [];
-
+  
   const [camerasGrid, setCamerasGrid] = useState([]);
-
+  const [currLayout, setCurrLayout] = useState(4);
+  
+  // let camerasToDisplay = [];
   // camerasToDisplay.push(
   //   <Camera
   //     width={"200px"}
@@ -34,12 +34,15 @@ const Grid = (props) => {
   // };
 
   const setAmountVisibility = (amount, visibility) => {
+    setCurrLayout((prevlLayout) => {
+      return Math.max(prevlLayout, amount);
+    });
     setCamerasGrid((prevVisibility) => {
       const tempCameras = [...prevVisibility];
-      let index;
-      for (index = 0; index < amount; index++) {
-        const element = camerasGrid[index];
-        element.visibility = index <= amount - 1 ? visibility : !visibility;
+
+      for (let index = 0; index < currLayout; index++) {
+        let element = camerasGrid[index];
+        element.visibility = index <= (amount - 1) ? visibility : !visibility;
 
         tempCameras[index] = element;
       }
@@ -56,7 +59,7 @@ const Grid = (props) => {
         tempCameras.push({
           id: props.cameras[i].camera_items[x].id,
           width: "200px",
-          controls: true,
+          //controls
           url: props.cameras[i].camera_items[x].video,
           visibility: counter < 4,
         });

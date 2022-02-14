@@ -12,7 +12,7 @@ const Camera = (props) => {
       {isVisibale && (
         <ReactPlayer
           width={props.camera.width}
-          controls = {props.controls}
+          controls
           url={props.camera.url}
           type="video/mp4"
         />
