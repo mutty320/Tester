@@ -23,67 +23,14 @@ for (let i in fileData.GROUPS) CameraGroups.push(fileData.GROUPS[i]);
 // 1.Camera_group- (group id) which will b the main banner
 // 2.camera_items- an array of all the items belonging to that group so we can iterat it for the dropdown
 
-let a = {"data": "key=IAfpK, age=58, key=WNVdi, age=64, key=jp9zt, age=47"}
-let b = a.data
-
-let myStr = b.replace(/=/g, ":")
-
-let myStr2 = myStr.replace(/key/g, "\"key\"").replace(/age/g, "\"age\"")
-let g = {"data": 0}
-g.data = myStr2
-//let c = JSON.parse(g)
-let arr=[]
-//let obj =  b.data
-
-
-//var ar = obj.split('age=');
-//for(var x=0; x<ar.length;x++){
- // console.log(obj.split(/, (?='key')/).map(s => s.split('key ')))
-//}
-
-
-console.log(myStr)
-console.log(typeof myStr)
-console.log(myStr2)
-console.log(g)
-console.log(a)
-//console.log(c)
-
-
-
 console.log(CameraGroups.length);
 for (let i in CameraGroups) {
   for (let x in CameraGroups[i].camera_items)
     console.log(i + " " + x + " " + CameraGroups[i].camera_items[x].name);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//unction App() {
 
-// return (
-//   <div>
-//     <link
-//       rel="stylesheet"
-//       href="../../source/styles/smart.default.css"
-//       type="text/css"
-//     />
-//     <script
-//       type="text/javascript"
-//       src="../../source/smart.element.js"
-//     ></script>
-//     <script
-//       type="text/javascript"
-//       src="../../source/smart.button.js"
-//     ></script>
-
-//     <body>
-//       <smart-button>Click Me</smart-button>
-//     </body>
 //     {/* <ReactPlayer controls url = 'https://www.youtube.com/watch?v=7sDY4m8KNLc&t=64s'/>*/}
-//   </div>
-// );
-
-//================================================
-
 //================================================
 class App extends React.Component {
   handleDragStart(event) {
@@ -146,8 +93,6 @@ class App extends React.Component {
             );
           })}
 
-          {/* ////////////////////////////////////////////////////////////////// */}
-
           {/*/////////////////////////////////////////////////////////////////////// */}
 
           <TreeItemsGroup expanded>
@@ -163,18 +108,10 @@ class App extends React.Component {
         <br />
 
         {/* <ReactPlayer controls url ="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"/> */}
-     
 
         <div>
-          <div className= "container demo-description"></div>
-          <div className="Grid-layout">
-            <div className="row">
-              <div className="col-4 video"> <Grid cameras={CameraGroups} /></div>
-              {/* <div className="col-sm-4 video">
-               
-              </div>
-              <div className="col-sm-4 video"></div> */}
-            </div>
+          <div class="container">
+            <Grid cameras={CameraGroups} />
           </div>
         </div>
       </div>

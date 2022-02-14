@@ -8,10 +8,9 @@ import { FaForward, FaBackward, FaPlay, FaPause } from "react-icons/fa";
 import Camera from "./Camera";
 
 const Grid = (props) => {
-  
   const [camerasGrid, setCamerasGrid] = useState([]);
   const [currLayout, setCurrLayout] = useState(4);
-  
+
   // let camerasToDisplay = [];
   // camerasToDisplay.push(
   //   <Camera
@@ -42,7 +41,7 @@ const Grid = (props) => {
 
       for (let index = 0; index < currLayout; index++) {
         let element = camerasGrid[index];
-        element.visibility = index <= (amount - 1) ? visibility : !visibility;
+        element.visibility = index <= amount - 1 ? visibility : !visibility;
 
         tempCameras[index] = element;
       }
@@ -58,7 +57,7 @@ const Grid = (props) => {
       for (let x in props.cameras[i].camera_items) {
         tempCameras.push({
           id: props.cameras[i].camera_items[x].id,
-          width: "200px",
+          width: "390px",
           //controls
           url: props.cameras[i].camera_items[x].video,
           visibility: counter < 4,
@@ -104,61 +103,66 @@ const Grid = (props) => {
 
   return (
     <div>
-      {camerasGrid.map(
-        (
-          camera //camera is an object
-        ) => (
-          <Camera key={camera.id} camera={camera} />
-        )
-      )}
-
-      <div
-        className="btn-toolbar mb-3"
-        role="toolbar"
-        aria-label="Toolbar with button groups"
-      >
-        <div className="btn-group mr-2" role="group" aria-label="First group">
-          <button type="button" className="btn btn-secondary">
-            <FaBackward size="2em" color="black" />
-          </button>
-          <button type="button" className="btn btn-secondary">
-            <FaPlay size="2em" color="black" />
-          </button>
-          <button type="button" className="btn btn-secondary">
-            <FaPause size="2em" color="black" />
-          </button>
-          <button type="button" className="btn btn-secondary">
-            <FaForward size="2em" color="black" />
-          </button>
-        </div>
+      <div className="row">
+        {camerasGrid.map(
+          (
+            camera //camera is an object
+          ) => (
+            <div class="col-lg-4">
+              <Camera key={camera.id} camera={camera} />
+            </div>
+          )
+        )}
       </div>
-      <div
-        className="btn-toolbar mb-3"
-        role="toolbar"
-        aria-label="Toolbar with button groups"
-      >
-        <div className="btn-group mr-2" role="group" aria-label="First group">
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setAmountVisibility(4, true)}
-          >
-            <BsGridFill size="2em" color="red" />
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setAmountVisibility(9, true)}
-          >
-            <BsFillGrid3X3GapFill size="2em" color="blue" />
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setAmountVisibility(10, true)}
-          >
-            <MdOutlineGrid4X4 size="2em" color="#310080" />
-          </button>
+      <div className="row">
+        <div
+          className="btn-toolbar mb-3"
+          role="toolbar"
+          aria-label="Toolbar with button groups"
+        >
+          <div className="btn-group mr-2" role="group" aria-label="First group">
+            <button type="button" className="btn btn-secondary">
+              <FaBackward size="2em" color="black" />
+            </button>
+            <button type="button" className="btn btn-secondary">
+              <FaPlay size="2em" color="black" />
+            </button>
+            <button type="button" className="btn btn-secondary">
+              <FaPause size="2em" color="black" />
+            </button>
+            <button type="button" className="btn btn-secondary">
+              <FaForward size="2em" color="black" />
+            </button>
+          </div>
+        </div>
+        <div
+          className="btn-toolbar mb-3"
+          role="toolbar"
+          aria-label="Toolbar with button groups"
+        >
+          <div className="btn-group mr-2" role="group" aria-label="First group">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setAmountVisibility(4, true)}
+            >
+              <BsGridFill size="2em" color="red" />
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setAmountVisibility(9, true)}
+            >
+              <BsFillGrid3X3GapFill size="2em" color="blue" />
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setAmountVisibility(10, true)}
+            >
+              <MdOutlineGrid4X4 size="2em" color="#310080" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
