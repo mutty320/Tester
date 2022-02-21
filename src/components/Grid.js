@@ -9,24 +9,21 @@ import Camera from "./Camera";
 
 const Grid = (props) => {
   const [camerasGrid, setCamerasGrid] = useState([]);
-  const [largestLayout, setLargestLayout] = useState(4);
-  const [currLayout, setCurrLayout] = useState(4);
+  const [largestLayout, setLargestLayout] = useState(4); //for updating the visibility property
+  const [currLayout, setCurrLayout] = useState(4); //for updating the className dynamically
 
-  // let camerasToDisplay = [];
-  // camerasToDisplay.push(
-  //   <Camera
-  //     width={"200px"}
-  //     controls
-  //     url={props.cameras[i].camera_items[x].video}
-  //     type={"video/mp4"}
-  //   />
-  // );
+  const LayoutSize = {
+    _2x2: 4,
+    _3x3: 9,
+    _4x4: 16,
+  }
 
   // const setAmountVisibility = (amount, visibility) => {
+  //   setCurrLayout(amount);
   //   const tempCameras = [];
   //   for (let index = 0; index < camerasGrid.length; index++) {
   //     const element = camerasGrid[index];
-  //     element.visibility = index <= (amount - 1) ? visibility : !visibility;
+  //     element.visibility = index <= amount - 1 ? visibility : !visibility;
 
   //     tempCameras.push(element);
   //   }
@@ -35,23 +32,33 @@ const Grid = (props) => {
 
   const setAmountVisibility = (amount, visibility) => {
     setCurrLayout(amount);
-    setLargestLayout((prevlLayout) => {
-      return Math.max(prevlLayout, amount);
-    });
+    //currLayout = amount;
+    // setLargestLayout((prevlLayout) => {
+    //   return Math.max(prevlLayout, amount);
+    // });
+    // console.log(largestLayout);
 
+    const tempLargestLayout = Math.max(largestLayout, amount)
+    
     setCamerasGrid((prevVisibility) => {
-      const tempCameras = [...prevVisibility];
-
-      for (let index = 0; index < largestLayout; index++) {
+      const tempCameras = prevVisibility;
+      
+      for (let index = 0; index < tempLargestLayout; index++) {
         let element = camerasGrid[index];
         element.visibility = index <= amount - 1 ? visibility : !visibility;
-
+        
         tempCameras[index] = element;
       }
-
+      
       return tempCameras;
     });
+
+    setLargestLayout(tempLargestLayout);
   };
+
+  useEffect(() => {
+    console.log("currentLayout: ", currLayout);
+  });
 
   useEffect(() => {
     let tempCameras = [];
@@ -100,10 +107,6 @@ const Grid = (props) => {
   //   });
   // };
 
-  {
-    /* <li>{<ReactPlayer width="200px"controls url={camera} type="video/mp4" />}</li> */
-  }
-
   return (
     <div>
       <div className="row">
@@ -111,8 +114,11 @@ const Grid = (props) => {
           (
             camera //camera is an object
           ) => (
-            <div className={`${currLayout === 4 ? "col-lg-5" : "col-lg-4"}`}>
-              <Camera key={camera.id} camera={camera} />
+            <div
+              className={`${currLayout === 4 ? "col-lg-5" : "col-lg-4"}`}
+              key={camera.id}
+            >
+              <Camera camera={camera} />
             </div>
           )
         )}
@@ -147,21 +153,21 @@ const Grid = (props) => {
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => setAmountVisibility(4, true)}
+              onClick={() => setAmountVisibility(LayoutSize._2x2, true)}
             >
               <BsGridFill size="2em" color="red" />
             </button>
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => setAmountVisibility(9, true)}
+              onClick={() => setAmountVisibility(LayoutSize._3x3, true)}
             >
               <BsFillGrid3X3GapFill size="2em" color="blue" />
             </button>
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={() => setAmountVisibility(10, true)}
+              onClick={() => setAmountVisibility(LayoutSize._4x4, true)}
             >
               <MdOutlineGrid4X4 size="2em" color="#310080" />
             </button>
