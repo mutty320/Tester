@@ -38,7 +38,7 @@ const Grid = (props) => {
     // });
     // console.log(largestLayout);
 
-    const tempLargestLayout = Math.max(largestLayout, amount)
+    const tempLargestLayout = Math.min(Math.max(largestLayout, amount), camerasGrid.length) // largestLayout cannot be greater than total cameras
     
     setCamerasGrid((prevVisibility) => {
       const tempCameras = prevVisibility;
