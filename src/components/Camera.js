@@ -1,23 +1,24 @@
 import ReactPlayer from "react-player";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-const Camera = (props) => {
-  const [isVisibale, setisVisibale] = useState(props.camera.visibility); //we will use the state to know if to display the camera
-
-  useEffect(() => {
-    setisVisibale(props.camera.visibility);
-  }, [props.camera.visibility]);
+const Camera = ({
+  camera
+}) => {
   return (
-    <div>
-      {isVisibale && (
-        <ReactPlayer
-          width={props.camera.width}
-          controls
-          url={props.camera.url}
-          type="video/mp4"
-        />
-      )}
-    </div>
+    <ReactPlayer
+      config={{
+        file: {
+          attributes: {
+            style: { objectFit: "cover", width: "100%", height: "100%"},
+          },
+        },
+      }}
+      width='100%'
+      height='100%'
+      controls
+      url={camera.url}
+      type="video/mp4"
+    />
   );
 };
 

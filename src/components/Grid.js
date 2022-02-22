@@ -58,6 +58,8 @@ const Grid = (props) => {
 
   useEffect(() => {
     console.log("currentLayout: ", currLayout);
+  
+    console.log('camerasGrid: ', camerasGrid);
   });
 
   useEffect(() => {
@@ -110,18 +112,20 @@ const Grid = (props) => {
   return (
     <div>
       <div className="row">
-        {camerasGrid.map(
-          (
-            camera //camera is an object
-          ) => (
-            <div
-              className={`${currLayout === 4 ? "col-lg-5" : "col-lg-4"}`}
-              key={camera.id}
-            >
-              <Camera camera={camera} />
-            </div>
+        {
+          camerasGrid.filter(camera => camera.visibility).map(
+            (
+              camera //camera is an object
+            ) => (
+              <div
+                className={`col-lg-${12/Math.sqrt(currLayout)} p-0`}
+                key={camera.id}
+              >
+                <Camera camera={camera} />
+              </div>
+            )
           )
-        )}
+        }
       </div>
       <div className="row">
         <div
