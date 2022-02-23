@@ -1,12 +1,12 @@
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 import React, { useState, useEffect } from "react";
-import { BsFillGrid3X3GapFill, BsGridFill } from "react-icons/bs";
+// import { BsFillGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 
-import { MdOutlineGrid4X4 } from "react-icons/md";
+// import { MdOutlineGrid4X4 } from "react-icons/md";
 
 import { FaForward, FaBackward, FaPlay, FaPause } from "react-icons/fa";
 import DisplayOptions from './DisplayOptions';
-import ScreenManager from './ScreenManager';
+import LayoutManager from './LayoutManager';
 
 export const LayoutSize = {
   _2x2: 4,
@@ -113,7 +113,7 @@ const Grid = (props) => {
 
   return (
     <div>
-      <ScreenManager
+      <LayoutManager
         camerasGrid={camerasGrid}
         currLayout={currLayout}
       />
