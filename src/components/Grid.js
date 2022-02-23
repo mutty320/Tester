@@ -6,17 +6,19 @@ import { MdOutlineGrid4X4 } from "react-icons/md";
 
 import { FaForward, FaBackward, FaPlay, FaPause } from "react-icons/fa";
 import Camera from "./Camera";
+import DisplayOptions from './DisplayOptions';
+
+export const LayoutSize = {
+  _2x2: 4,
+  _3x3: 9,
+  _4x4: 16,
+}
 
 const Grid = (props) => {
   const [camerasGrid, setCamerasGrid] = useState([]);
   const [largestLayout, setLargestLayout] = useState(4); //for updating the visibility property
   const [currLayout, setCurrLayout] = useState(4); //for updating the className dynamically
 
-  const LayoutSize = {
-    _2x2: 4,
-    _3x3: 9,
-    _4x4: 16,
-  }
 
   // const setAmountVisibility = (amount, visibility) => {
   //   setCurrLayout(amount);
@@ -148,7 +150,11 @@ const Grid = (props) => {
             </button>
           </div>
         </div>
-        <div
+        <DisplayOptions
+          onSubmit={setAmountVisibility}
+          currLayout={currLayout}
+        />
+        {/* <div
           className="btn-toolbar mb-3"
           role="toolbar"
           aria-label="Toolbar with button groups"
@@ -176,8 +182,8 @@ const Grid = (props) => {
               <MdOutlineGrid4X4 size="2em" color="#310080" />
             </button>
           </div>
-        </div>
-      </div>
+        </div>*/}
+      </div> 
     </div>
   );
 };
