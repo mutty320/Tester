@@ -5,8 +5,8 @@ import { BsFillGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 import { MdOutlineGrid4X4 } from "react-icons/md";
 
 import { FaForward, FaBackward, FaPlay, FaPause } from "react-icons/fa";
-import Camera from "./Camera";
 import DisplayOptions from './DisplayOptions';
+import ScreenManager from './ScreenManager';
 
 export const LayoutSize = {
   _2x2: 4,
@@ -113,22 +113,10 @@ const Grid = (props) => {
 
   return (
     <div>
-      <div className="row">
-        {
-          camerasGrid.filter(camera => camera.visibility).map(
-            (
-              camera //camera is an object
-            ) => (
-              <div
-                className={`col-lg-${12/Math.sqrt(currLayout)} p-0`}
-                key={camera.id}
-              >
-                <Camera camera={camera} />
-              </div>
-            )
-          )
-        }
-      </div>
+      <ScreenManager
+        camerasGrid={camerasGrid}
+        currLayout={currLayout}
+      />
       <div className="row">
         <div
           className="btn-toolbar mb-3"
