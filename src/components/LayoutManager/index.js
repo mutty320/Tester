@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { Camera, EmptyCamera } from "../Camera";
 
@@ -10,6 +10,7 @@ const LayoutManager = ({
     camerasGrid,
     currLayout,
 }) => {
+
 
     const buildLayoutView = () => {
 

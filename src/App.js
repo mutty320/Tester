@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 
 import { Accordion, AccordionItem } from "smart-webcomponents-react/accordion";
 import "smart-webcomponents-react/source/styles/smart.default.css";
@@ -32,14 +32,28 @@ for (let i in CameraGroups) {
 
 //     {/* <ReactPlayer controls url = 'https://www.youtube.com/watch?v=7sDY4m8KNLc&t=64s'/>*/}
 //================================================
-class App extends React.Component {
-  handleDragStart(event) {
+const App = () => {
+  const handleKeyPress = useCallback((event) => {
+    console.log(`Key pressed: ${event.key}`);
+  }, []);
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener('keydown', handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
+  const handleDragStart = (event) => {
     if (event.detail.items[0].label === "Communities") {
       event.preventDefault();
     }
   }
 
-  handleDragEnd(event) {
+  const handleDragEnd = (event) => {
     // if (event.detail.items[0].label === "Financial services") {
     //   event.preventDefault();
     //   return;
@@ -52,11 +66,7 @@ class App extends React.Component {
     }
   }
 
-  init() {}
 
-  componentDidMount() {}
-
-  render() {
     return (
       <div>
         <br />
@@ -66,8 +76,8 @@ class App extends React.Component {
           className="animation"
           allowDrag
           allowDrop
-          onDragStart={this.handleDragStart.bind(this)}
-          onDragEnd={this.handleDragEnd.bind(this)}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
         >
           <TreeItem style={{ color: "red" }}>Groups</TreeItem>
 
@@ -116,7 +126,6 @@ class App extends React.Component {
         </div>
       </div>
     );
-  }
 }
 
 ReactDOM.render(<App />, document.querySelector("#root"));
