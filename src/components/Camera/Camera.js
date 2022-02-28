@@ -9,24 +9,18 @@ const Container = styled.div`
   border: 2px solid #181C1E;
   background: black;
 
-  ${({defaultHoverDisabled}) => !defaultHoverDisabled ?
-  `
-    &:hover {
-      border: 2px solid orange;
-    }
-  ` : ''
-  }
+  ${({hover}) => hover && `
+    border-color: orange
+  `}
 `;
 
 const Camera = ({
   camera,
-  hover,
   defaultHoverDisabled,
 }) => {
   return (
     <Container
-      hover={hover}
-      defaultHoverDisabled={defaultHoverDisabled}
+      hover={camera.hover}
     >
       <ReactPlayer
         config={{

@@ -70,6 +70,7 @@ const Grid = (props) => {
           //controls
           url: props.cameras[i].camera_items[x].video,
           visibility: counter < 4,
+          hover: false
         });
         counter++;
       }
@@ -113,26 +114,6 @@ const Grid = (props) => {
         currLayout={currLayout}
       />
       <div className="row">
-        <div
-          className="btn-toolbar mb-3"
-          role="toolbar"
-          aria-label="Toolbar with button groups"
-        >
-          <div className="btn-group mr-2" role="group" aria-label="First group">
-            <button type="button" className="btn btn-secondary">
-              <FaBackward size="2em" color="black" />
-            </button>
-            <button type="button" className="btn btn-secondary">
-              <FaPlay size="2em" color="black" />
-            </button>
-            <button type="button" className="btn btn-secondary">
-              <FaPause size="2em" color="black" />
-            </button>
-            <button type="button" className="btn btn-secondary">
-              <FaForward size="2em" color="black" />
-            </button>
-          </div>
-        </div>
         <DisplayOptions
           onSubmit={setAmountVisibility}
           currLayout={currLayout}

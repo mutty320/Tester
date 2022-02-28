@@ -146,7 +146,7 @@ function addListeners() {
 // =========================================================================================
 export function start(mapInstance){
     if (!mapInstance) {
-        throw new Error("a mapInstance is required");
+        throw new Error("a map instance is required when calling start(mapInstance)");
     }
     MapInstance = mapInstance;
     document.addEventListener('DOMContentLoaded', async () => {

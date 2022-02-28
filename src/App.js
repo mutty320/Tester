@@ -13,6 +13,8 @@ import { Tree, TreeItem, TreeItemsGroup } from "smart-webcomponents-react/tree";
 import "./App.css";
 
 import Grid from "./components/Grid";
+import KeyCode from './contexts/KeyCode';
+import MouseMove from './contexts/MouseMove';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const fileData = require("./components/config"); //now f is an object holding array of objects
 console.log(fileData);
@@ -33,19 +35,6 @@ for (let i in CameraGroups) {
 //     {/* <ReactPlayer controls url = 'https://www.youtube.com/watch?v=7sDY4m8KNLc&t=64s'/>*/}
 //================================================
 const App = () => {
-  const handleKeyPress = useCallback((event) => {
-    console.log(`Key pressed: ${event.key}`);
-  }, []);
-
-  useEffect(() => {
-    // attach the event listener
-    document.addEventListener('keydown', handleKeyPress);
-
-    // remove the event listener
-    return () => {
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, [handleKeyPress]);
 
   const handleDragStart = (event) => {
     if (event.detail.items[0].label === "Communities") {
@@ -68,63 +57,67 @@ const App = () => {
 
 
     return (
-      <div>
-        <br />
-        <br />
-        <Tree
-          id="tree1"
-          className="animation"
-          allowDrag
-          allowDrop
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-        >
-          <TreeItem style={{ color: "red" }}>Groups</TreeItem>
-
-          {/* ///////////////////////////////////////////////////////////// */}
-
-          {CameraGroups.map((group) => {
-            return (
-              <TreeItemsGroup
-                key={group.Camera_group}
-                style={{ color: "blue" }}
-              >
-                {group.Camera_group}
-
-                {group.camera_items.map((item) => (
-                  <TreeItem key={item.id}>
-                    {" "}
-                    <a href="https://www.youtube.com/watch?v=7sDY4m8KNLc&t=64s">
-                      {item.name}
-                    </a>
-                  </TreeItem>
-                ))}
-              </TreeItemsGroup>
-            );
-          })}
-
-          {/*/////////////////////////////////////////////////////////////////////// */}
-
-          <TreeItemsGroup expanded>
-            Support
-            <TreeItem>Support home</TreeItem>
-            <TreeItem>Customer Service</TreeItem>
-            <TreeItem>Knowledge base</TreeItem>
-            <TreeItem>Support home</TreeItem>
-          </TreeItemsGroup>
-        </Tree>
-
-        <br />
-        <br />
-
-        {/* <ReactPlayer controls url ="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"/> */}
-
+      <KeyCode.Provider>
+        <MouseMove.Provider>
         <div>
-          <div className="container">
-            <Grid cameras={CameraGroups} />
+          <br />
+          <br />
+          <Tree
+            id="tree1"
+            className="animation"
+            allowDrag
+            allowDrop
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          >
+            <TreeItem style={{ color: "red" }}>Groups</TreeItem>
+
+            {/* ///////////////////////////////////////////////////////////// */}
+
+            {CameraGroups.map((group) => {
+              return (
+                <TreeItemsGroup
+                  key={group.Camera_group}
+                  style={{ color: "blue" }}
+                >
+                  {group.Camera_group}
+
+                  {group.camera_items.map((item) => (
+                    <TreeItem key={item.id}>
+                      {" "}
+                      <a href="https://www.youtube.com/watch?v=7sDY4m8KNLc&t=64s">
+                        {item.name}
+                      </a>
+                    </TreeItem>
+                  ))}
+                </TreeItemsGroup>
+              );
+            })}
+
+            {/*/////////////////////////////////////////////////////////////////////// */}
+
+            <TreeItemsGroup expanded>
+              Support
+              <TreeItem>Support home</TreeItem>
+              <TreeItem>Customer Service</TreeItem>
+              <TreeItem>Knowledge base</TreeItem>
+              <TreeItem>Support home</TreeItem>
+            </TreeItemsGroup>
+          </Tree>
+
+          <br />
+          <br />
+
+          {/* <ReactPlayer controls url ="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"/> */}
+
+          <div>
+            <div className="container">
+              <Grid cameras={CameraGroups} />
+            </div>
           </div>
         </div>
-      </div>
+        </MouseMove.Provider>
+      </KeyCode.Provider>
     );
 }
 

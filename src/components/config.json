@@ -5,12 +5,12 @@
       "camera_items": [
         {
           "name": "South corner",
-          "id": 8,
+          "id": 1,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         },
         {
           "name": "North corner",
-          "id": 9,
+          "id": 2,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -21,7 +21,7 @@
       "camera_items": [
         {
           "name": "East corner",
-          "id": 10,
+          "id": 3,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -31,7 +31,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 11,
+          "id": 4,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -41,7 +41,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 12,
+          "id": 5,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -51,7 +51,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 13,
+          "id": 6,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -61,7 +61,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 14,
+          "id": 7,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -71,7 +71,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 15,
+          "id": 8,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -81,7 +81,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 16,
+          "id": 9,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -91,7 +91,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 17,
+          "id": 10,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
@@ -101,7 +101,7 @@
       "camera_items": [
         {
           "name": "West corner",
-          "id": 18,
+          "id": 11,
           "video": "http://www.w3schools.com/html/mov_bbb.mp4"
         }
       ]
