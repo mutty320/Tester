@@ -1,9 +1,15 @@
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { Camera, EmptyCamera } from "../Camera";
+import PageArrows from '../PageArrows';
 
 const Row = styled.div`
 
+`;
+
+const Container = styled.div`
+  display: flex;
+  gap: 20px;
 `;
 
 const LayoutManager = ({
@@ -51,11 +57,15 @@ const LayoutManager = ({
     }
 
   return (
-    <Row className="row">
-        {
-          buildLayoutView()
-        }
-    </Row>
+    <Container>
+      <PageArrows onSubmit={() => console.log('Left clicked')} />
+      <Row className="row">
+          {
+            buildLayoutView()
+          }
+      </Row>
+      <PageArrows onSubmit={() => console.log('Right clicked')} right />
+    </Container>
   )
 }
 

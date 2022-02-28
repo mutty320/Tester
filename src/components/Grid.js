@@ -34,11 +34,6 @@ const Grid = (props) => {
 
   const setAmountVisibility = (amount, visibility) => {
     setCurrLayout(amount);
-    //currLayout = amount;
-    // setLargestLayout((prevlLayout) => {
-    //   return Math.max(prevlLayout, amount);
-    // });
-    // console.log(largestLayout);
 
     const tempLargestLayout = Math.min(Math.max(largestLayout, amount), camerasGrid.length) // largestLayout cannot be greater than total cameras
     
