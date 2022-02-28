@@ -5,7 +5,7 @@
 const JOYSTICK = 1678;
 // const MOUSE = 1267;
 const MOUSE = 14648;
-
+let MapInstance;
 
 
 //==========================================================================================
@@ -13,7 +13,7 @@ const MOUSE = 14648;
 //==========================================================================================
 
 
-const ACTION = {
+export const ACTION = {
     //====controlled by the 8th Bit====//
     RIGHT_BUTTON_ON_STICK: Symbol.for("RIGHT_JOY_STICK"),
     LEFT_BUTTON_ON_STICK: Symbol.for("LEFT_JOY_STICK"),
@@ -53,7 +53,7 @@ Object.freeze(ACTION);
 //=========================================================================================
 
 
-const Mapper = class {
+export const Mapper = class {
 
     actions = {};
     prevAction = ACTION.NOTHING;
@@ -77,26 +77,28 @@ const Mapper = class {
 // for (let k = 0; k < 10; k++) {
 //     for (let i = 0; i < 1000 * 1000 * 1000; i++);
 
-map = new Mapper();
+// sample for using this module
+// const map = new Mapper();
 // map.register(ACTION.NOTHING, ()=>{console.log("NOTHING")})
-map.register(ACTION.FIRST, ()=> {console.log("FIRST")})
-map.register(ACTION.SECOND, ()=>{console.log("SECOND")})
-map.register(ACTION.THIRD, ()=>{console.log("THIRD")})
-map.register(ACTION.FOURTH, ()=>{console.log("FOURTH")})
-map.register(ACTION.FIFTH, ()=>{console.log("FIFTH")})
-map.register(ACTION.SIXTH, ()=>{console.log("SIXTH")})
-map.register(ACTION.SEVENTH, ()=>{console.log("SEVENTH")})
-map.register(ACTION.EIGHTH, ()=>{console.log("EIGHTH")})
-map.register(ACTION.NINTH, ()=>{console.log("NINTH")})
-map.register(ACTION.TENTH, ()=>{console.log("TENTH")})
-map.register(ACTION.RIGHT_BUTTON_ON_STICK, ()=>{console.log("RIGHT_BUTTON_ON_STICK")})
-map.register(ACTION.LEFT_BUTTON_ON_STICK, ()=>{console.log("LEFT_BUTTON_ON_STICK")})
-map.register(ACTION.ROTATE_RIGHT, ()=>{console.log("ROTATE_RIGHT")})
-map.register(ACTION.ROTATE_LEFT, ()=>{console.log("ROTATE_LEFT")})
-map.register(ACTION.FRONT, ()=>{console.log("PUSHED FRONT")})
-map.register(ACTION.BACK, ()=>{console.log("PUSHED BACK")})
-map.register(ACTION.RIGHT, ()=>{console.log("PUSHED RIGHT")})
-map.register(ACTION.LEFT, ()=>{console.log("PUSHED LEFT")})
+// map.register(ACTION.FIRST, ()=> {console.log("FIRST")})
+// map.register(ACTION.SECOND, ()=>{console.log("SECOND")})
+// map.register(ACTION.THIRD, ()=>{console.log("THIRD")})
+// map.register(ACTION.FOURTH, ()=>{console.log("FOURTH")})
+// map.register(ACTION.FIFTH, ()=>{console.log("FIFTH")})
+// map.register(ACTION.SIXTH, ()=>{console.log("SIXTH")})
+// map.register(ACTION.SEVENTH, ()=>{console.log("SEVENTH")})
+// map.register(ACTION.EIGHTH, ()=>{console.log("EIGHTH")})
+// map.register(ACTION.NINTH, ()=>{console.log("NINTH")})
+// map.register(ACTION.TENTH, ()=>{console.log("TENTH")})
+// map.register(ACTION.RIGHT_BUTTON_ON_STICK, ()=>{console.log("RIGHT_BUTTON_ON_STICK")})
+// map.register(ACTION.LEFT_BUTTON_ON_STICK, ()=>{console.log("LEFT_BUTTON_ON_STICK")})
+// map.register(ACTION.ROTATE_RIGHT, ()=>{console.log("ROTATE_RIGHT")})
+// map.register(ACTION.ROTATE_LEFT, ()=>{console.log("ROTATE_LEFT")})
+// map.register(ACTION.FRONT, ()=>{console.log("PUSHED FRONT")})
+// map.register(ACTION.BACK, ()=>{console.log("PUSHED BACK")})
+// map.register(ACTION.RIGHT, ()=>{console.log("PUSHED RIGHT")})
+// map.register(ACTION.LEFT, ()=>{console.log("PUSHED LEFT")})
+// start(map);
 
 //
 // for (let k of Object.keys(ACTION))
@@ -142,7 +144,11 @@ function addListeners() {
 //=========================================================================================
 //                          main()
 // =========================================================================================
-export function start(){
+export function start(mapInstance){
+    if (!mapInstance) {
+        throw new Error("a mapInstance is required");
+    }
+    MapInstance = mapInstance;
     document.addEventListener('DOMContentLoaded', async () => {
 
         addListeners();
@@ -208,7 +214,7 @@ async function myDeviceDetails(myDevice) {
 
         const {data, device, reportId} = event;
         const action = get_action(data);
-        map.execute(action);
+        MapInstance.execute(action);
 
     });
 }
