@@ -42,8 +42,8 @@ const LayoutManager = ({
     map.register(ACTION.ROTATE_LEFT, ()=>{console.log("ROTATE_LEFT")})
     map.register(ACTION.FRONT, ()=>{console.log("PUSHED FRONT")})
     map.register(ACTION.BACK, ()=>{console.log("PUSHED BACK")})
-    map.register(ACTION.RIGHT, navigate('right'))
-    map.register(ACTION.LEFT, navigate('left'))
+    map.register(ACTION.RIGHT, () => navigate('right'))
+    map.register(ACTION.LEFT, () => navigate('left'))
 
     start(map);
     
