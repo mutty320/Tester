@@ -1,22 +1,24 @@
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 import React, { useState, useEffect } from "react";
-import { BsFillGrid3X3GapFill, BsGridFill } from "react-icons/bs";
+// import { BsFillGrid3X3GapFill, BsGridFill } from "react-icons/bs";
 
-import { MdOutlineGrid4X4 } from "react-icons/md";
+// import { MdOutlineGrid4X4 } from "react-icons/md";
 
 import { FaForward, FaBackward, FaPlay, FaPause } from "react-icons/fa";
-import Camera from "./Camera";
+import DisplayOptions from './DisplayOptions';
+import LayoutManager from './LayoutManager';
+
+export const LayoutSize = {
+  _2x2: 4,
+  _3x3: 9,
+  _4x4: 16,
+}
 
 const Grid = (props) => {
   const [camerasGrid, setCamerasGrid] = useState([]);
   const [largestLayout, setLargestLayout] = useState(4); //for updating the visibility property
   const [currLayout, setCurrLayout] = useState(4); //for updating the className dynamically
 
-  const LayoutSize = {
-    _2x2: 4,
-    _3x3: 9,
-    _4x4: 16,
-  }
 
   // const setAmountVisibility = (amount, visibility) => {
   //   setCurrLayout(amount);
@@ -32,11 +34,6 @@ const Grid = (props) => {
 
   const setAmountVisibility = (amount, visibility) => {
     setCurrLayout(amount);
-    //currLayout = amount;
-    // setLargestLayout((prevlLayout) => {
-    //   return Math.max(prevlLayout, amount);
-    // });
-    // console.log(largestLayout);
 
     const tempLargestLayout = Math.min(Math.max(largestLayout, amount), camerasGrid.length) // largestLayout cannot be greater than total cameras
     
@@ -111,22 +108,10 @@ const Grid = (props) => {
 
   return (
     <div>
-      <div className="row">
-        {
-          camerasGrid.filter(camera => camera.visibility).map(
-            (
-              camera //camera is an object
-            ) => (
-              <div
-                className={`col-lg-${12/Math.sqrt(currLayout)} p-0`}
-                key={camera.id}
-              >
-                <Camera camera={camera} />
-              </div>
-            )
-          )
-        }
-      </div>
+      <LayoutManager
+        camerasGrid={camerasGrid}
+        currLayout={currLayout}
+      />
       <div className="row">
         <div
           className="btn-toolbar mb-3"
@@ -148,7 +133,11 @@ const Grid = (props) => {
             </button>
           </div>
         </div>
-        <div
+        <DisplayOptions
+          onSubmit={setAmountVisibility}
+          currLayout={currLayout}
+        />
+        {/* <div
           className="btn-toolbar mb-3"
           role="toolbar"
           aria-label="Toolbar with button groups"
@@ -176,8 +165,8 @@ const Grid = (props) => {
               <MdOutlineGrid4X4 size="2em" color="#310080" />
             </button>
           </div>
-        </div>
-      </div>
+        </div>*/}
+      </div> 
     </div>
   );
 };
