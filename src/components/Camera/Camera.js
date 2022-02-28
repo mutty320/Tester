@@ -6,12 +6,13 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
 
-  border: 1px solid #181C1E;
+  border: 2px solid #181C1E;
+  background: black;
 
   ${({defaultHoverDisabled}) => !defaultHoverDisabled ?
   `
     &:hover {
-      border: 1px solid orange;
+      border: 2px solid orange;
     }
   ` : ''
   }
