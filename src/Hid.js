@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 //=========================================================================================
 //                      globals
 //=========================================================================================
@@ -44,7 +45,7 @@ export const ACTION = {
 
     NOTHING: Symbol.for("NOTHING"),
 }
-Object.freeze(ACTION);
+// Object.freeze(ACTION);
 
 
 
@@ -62,13 +63,14 @@ export const Mapper = class {
         this.actions[action] = func;
     };
 
-    execute = function (action) {
-        if (action !== this.prevAction)
-        {
+    execute = function (action, value) {
+        // if (action !== this.prevAction)
+        // {
             this.prevAction = action;
-            if(this.actions[action] !== undefined)
-                this.actions[action]();
-        }
+            if(this.actions[action] !== undefined){
+                this.actions[action](value);
+            }
+        // }
     }
 };
 
@@ -180,17 +182,17 @@ export function start(mapInstance){
 
     window.addEventListener("gamepadconnected", (event) => {
 
-        const first = document.getElementById("firstCinnection").innerHTML;
+        // const first = document.getElementById("firstCinnection").innerHTML;
 
-        if(first === "true"){
-            document.getElementById("firstCinnection").innerHTML = "false";
-            return;
-        }
-        let requestButton = document.getElementById("hid-device");
-        requestButton.innerHTML = "welcome back! click here to connect the joystick";
+        // if(first === "true"){
+        //     document.getElementById("firstCinnection").innerHTML = "false";
+        //     return;
+        // }
+        // let requestButton = document.getElementById("hid-device");
+        // requestButton.innerHTML = "welcome back! click here to connect the joystick";
 
 
-        console.log("A gamepad connected. welcome back!");
+        // console.log("A gamepad connected. welcome back!");
         //console.log(event.gamepad);
     });
 
@@ -211,10 +213,10 @@ async function myDeviceDetails(myDevice) {
     console.log(myDevice.vendorId + " is opened?- " + myDevice.opened);
 
     myDevice.addEventListener("inputreport", event => {
-
         const {data, device, reportId} = event;
-        const action = get_action(data);
-        MapInstance.execute(action);
+        // console.log(data)
+        const {action, value} = get_action(data);
+        MapInstance.execute(action,value);
 
     });
 }
@@ -241,40 +243,46 @@ const get_action = (data) => {
 
     switch (data.getUint8(7)) {
         case 1 :
-            return ACTION.NINTH
+            return {action: ACTION.NINTH}
         case 2:
-            return ACTION.TENTH
+            return {action: ACTION.TENTH}
         case 4:
-            return ACTION.LEFT_BUTTON_ON_STICK
+            return {action: ACTION.LEFT_BUTTON_ON_STICK}
         case 8:
-            return ACTION.RIGHT_BUTTON_ON_STICK
+            return {action: ACTION.RIGHT_BUTTON_ON_STICK}
 
     }
 
     switch (data.getUint8(6)) {
         case 1:
-            return ACTION.FIRST
+            return {action: ACTION.FIRST}
         case 2:
-            return ACTION.SECOND
+            return {action: ACTION.SECOND}
         case 4:
-            return ACTION.THIRD
+            return {action: ACTION.THIRD}
         case 8:
-            return ACTION.FOURTH
+            return {action: ACTION.FOURTH}
         case 16:
-            return ACTION.FIFTH
+            return {action: ACTION.FIFTH}
         case 32:
-            return ACTION.SIXTH
+            return {action: ACTION.SIXTH}
         case 64:
-            return ACTION.SEVENTH
+            return {action: ACTION.SEVENTH}
         case 128:
-            return ACTION.EIGHTH
+            return {action: ACTION.EIGHTH}
     }
 
     switch (data.getUint8(5)) {
         case 0:
-            return ACTION.ROTATE_LEFT
+            return {
+                action: ACTION.ROTATE_LEFT,
+                value: 255 - data.getUint8(4)
+            }
         case 3:
-            return ACTION.ROTATE_RIGHT
+            return {
+                action: ACTION.ROTATE_RIGHT,
+                value: data.getUint8(4),
+            };
 
     }
 
@@ -290,17 +298,29 @@ const get_action = (data) => {
     // }
     switch (data.getUint8(3)) {
         case 0:
-            return ACTION.FRONT
+            return {
+                action: ACTION.FRONT,
+                value: 255 - data.getUint8(2)
+            }
         case 3:
-            return ACTION.BACK
+            return {
+                action: ACTION.BACK,
+                value: data.getUint8(2)
+            }
     }
 
     switch (data.getUint8(1)) {
         case 0:
-            return ACTION.LEFT
+            return {
+                action: ACTION.LEFT,
+                value: 255 - data.getUint8(0)
+            }
         case 3:
-            return ACTION.RIGHT
+            return {
+                action: ACTION.RIGHT,
+                value: data.getUint8(0)
+            };
         default:
-            return ACTION.NOTHING
+            return {action: ACTION.NOTHING}
     }
 }

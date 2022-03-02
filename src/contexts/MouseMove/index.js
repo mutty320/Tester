@@ -7,25 +7,16 @@ const MouseMove = () => {
     const handleMouseMove = useCallback(() => {
         setMouseTrigger(prev => !prev);
     }, []);
-
-    const enable = (bool) => {
-        if (bool) {
-            // attach the event listener
-            document.addEventListener('mousemove', handleMouseMove);
-        } else {
-            // remove the event listener
-            document.removeEventListener('mousemove', handleMouseMove);
-        }
-    }
     
     useEffect(() => {
+        // attach the event listener
+        document.addEventListener("mousemove", handleMouseMove);
         return () => {
             // remove the event listener
-            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener("mousemove", handleMouseMove);
         };
     }, []);
   return {
-      enable,
       mouseTrigger,
   }
 }

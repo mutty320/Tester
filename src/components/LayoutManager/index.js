@@ -15,26 +15,92 @@ const Container = styled.div`
   gap: 20px;
 `;
 
+function mapNumber(n, start1, stop1, start2, stop2) {
+    return ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
+}
+
 const LayoutManager = ({
     camerasGrid,
     currLayout,
 }) => {
 
   const [defaultHoverDisabled, setDefaultHoverDisabled] = useState();
+  const map = new Mapper();
+  const [lastDirection, setLastDirection] = useState(null);
+  const [lastMoveTime, setLastMoveTime] = useState(0);
   const [hoverId, setHoverId] = useState();
   const [camerasList, setCamerasList] = useState([]);
   const [visibleListLength, setVisibleListLength] = useState();
 
-  const { mouseTrigger, enable } = MouseMove.useContainer();
+  map.register(ACTION.FIRST, () => {
+      console.log("First");
+  });
+  map.register(ACTION.SECOND, () => {
+      console.log("SECOND");
+  });
+  map.register(ACTION.THIRD, () => {
+      console.log("THIRD");
+  });
+  map.register(ACTION.FOURTH, () => {
+      console.log("FOURTH");
+  });
+  map.register(ACTION.FIFTH, () => {
+      console.log("FIFTH");
+  });
+  map.register(ACTION.SIXTH, () => {
+      console.log("SIXTH");
+  });
+  map.register(ACTION.SEVENTH, () => {
+      console.log("SEVENTH");
+  });
+  map.register(ACTION.EIGHTH, () => {
+      console.log("EIGHTH");
+  });
+  map.register(ACTION.NINTH, () => {
+      console.log("NINTH");
+  });
+  map.register(ACTION.TENTH, () => {
+      console.log("TENTH");
+  });
+  map.register(ACTION.RIGHT_BUTTON_ON_STICK, () => {
+      console.log("RIGHT_BUTTON_ON_STICK");
+  });
+  map.register(ACTION.LEFT_BUTTON_ON_STICK, () => {
+      console.log("LEFT_BUTTON_ON_STICK");
+  });
+  map.register(ACTION.ROTATE_RIGHT, (value) => {
+      console.log("ROTATE_RIGHT");
+  });
+  map.register(ACTION.ROTATE_LEFT, (value) => {
+      console.log("ROTATE_LEFT");
+  });
+  map.register(ACTION.FRONT, (value) => {
+    navigate("up", value);
+  });
+  map.register(ACTION.BACK, (value) => {
+    navigate("down", value);
+  });
+  map.register(ACTION.RIGHT, (value) => {
+    navigate("right", value);
+  });
+  map.register(ACTION.LEFT, (value) => {
+    navigate("left", value);
+  });
+  map.register(ACTION.NOTHING, () => {
+    setLastDirection(null);
+    setLastMoveTime(0);
+  });
+
+  start(map);
+
+  const { mouseTrigger } = MouseMove.useContainer();
 
   useEffect(() => {
     setDefaultHoverDisabled(false);
   }, [mouseTrigger])
 
-  const navigate = (direction) => {
+  const navigate = (direction, value) => {
     setDefaultHoverDisabled(true);  // disable mouse hover (since when calling this function were using the keyboard to navigate)
-    enable(true); // enable mouse move
-    console.log('direction: ', direction);
 
     let currentHoverId = hoverId;
     if (!hoverId) {
@@ -44,6 +110,17 @@ const LayoutManager = ({
     // current hover = hoverId
     // if hoverId undefined then current hover = 1 (or page item: 1)
     let result;
+
+    if (direction === lastDirection && (!value || value <= 100)) {
+      return
+    }
+
+    if (lastMoveTime && Date.now() - lastMoveTime < mapNumber(value, 0, 255, 350, 150)) {
+        return;
+    }
+
+    setLastDirection(direction);
+    setLastMoveTime(Date.now());
 
     switch (direction) {
       case 'up':
@@ -61,38 +138,10 @@ const LayoutManager = ({
       default:
         result = 0;
     }
-    if (result > 0 && result <= visibleListLength) { // do it based on visible length
+    if (result > 0 && result <= visibleListLength) { // based on visible length
       setHoverId(result);
     }
-    console.log(result);
   }
-
-  useEffect(() => {
-
-    const map = new Mapper();
-    
-    map.register(ACTION.FIRST, ()=> {console.log("First")})
-    map.register(ACTION.SECOND, ()=>{console.log("SECOND")})
-    map.register(ACTION.THIRD, ()=>{console.log("THIRD")})
-    map.register(ACTION.FOURTH, ()=>{console.log("FOURTH")})
-    map.register(ACTION.FIFTH, ()=>{console.log("FIFTH")})
-    map.register(ACTION.SIXTH, ()=>{console.log("SIXTH")})
-    map.register(ACTION.SEVENTH, ()=>{console.log("SEVENTH")})
-    map.register(ACTION.EIGHTH, ()=>{console.log("EIGHTH")})
-    map.register(ACTION.NINTH, ()=>{console.log("NINTH")})
-    map.register(ACTION.TENTH, ()=>{console.log("TENTH")})
-    map.register(ACTION.RIGHT_BUTTON_ON_STICK, ()=>{console.log("RIGHT_BUTTON_ON_STICK")})
-    map.register(ACTION.LEFT_BUTTON_ON_STICK, ()=>{console.log("LEFT_BUTTON_ON_STICK")})
-    map.register(ACTION.ROTATE_RIGHT, ()=>{console.log("ROTATE_RIGHT")})
-    map.register(ACTION.ROTATE_LEFT, ()=>{console.log("ROTATE_LEFT")})
-    map.register(ACTION.FRONT, ()=>navigate('up'))
-    map.register(ACTION.BACK, ()=>navigate('down'))
-    map.register(ACTION.RIGHT, () => navigate('right'))
-    map.register(ACTION.LEFT, () => navigate('left'))
-
-    start(map);
-    
-  }, []);
   
   // get the camerasGrid from the prop
   useEffect(() => {
