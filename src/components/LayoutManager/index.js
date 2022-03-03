@@ -99,28 +99,30 @@ const LayoutManager = ({
     setDefaultHoverDisabled(false);
   }, [mouseTrigger])
 
-  const navigate = (direction, value) => {
+  const navigate = (direction, value, keyboard=false) => {
     setDefaultHoverDisabled(true);  // disable mouse hover (since when calling this function were using the keyboard to navigate)
 
+    // if hoverId undefined then current hover = 1 (or page item: 1)
     let currentHoverId = hoverId;
     if (!hoverId) {
       currentHoverId = 1;
     }
 
-    // current hover = hoverId
-    // if hoverId undefined then current hover = 1 (or page item: 1)
-    let result;
-
-    if (direction === lastDirection && (!value || value <= 100)) {
-      return
-    }
-
-    if (lastMoveTime && Date.now() - lastMoveTime < mapNumber(value, 0, 255, 350, 150)) {
+    
+    if (!keyboard) { // indicating that navigate was called by controller
+      if (direction === lastDirection && (!value || value <= 100)) {
+        return
+      }
+      
+      if (lastMoveTime && Date.now() - lastMoveTime < mapNumber(value, 0, 255, 350, 150)) {
         return;
+      }
+      
+      setLastDirection(direction);
+      setLastMoveTime(Date.now());
     }
 
-    setLastDirection(direction);
-    setLastMoveTime(Date.now());
+    let result;
 
     switch (direction) {
       case 'up':
@@ -177,13 +179,13 @@ const LayoutManager = ({
   useEffect(() => {
 
     switch (keyCode) {
-      case 'ArrowUp': navigate('up');
+      case 'ArrowUp': navigate('up', null, true);
         break;
-      case 'ArrowDown': navigate('down');
+      case 'ArrowDown': navigate('down', null, true);
         break;
-      case 'ArrowLeft': navigate('left');
+      case 'ArrowLeft': navigate('left', null, true);
         break;
-      case 'ArrowRight': navigate('right');
+      case 'ArrowRight': navigate('right', null, true);
         break;
       default:
         console.log('not an arrow key')

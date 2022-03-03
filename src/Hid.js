@@ -205,7 +205,8 @@ export function start(mapInstance){
 
 async function myDeviceDetails(myDevice) {
 
-    if(myDevice === undefined)
+    console.log(myDevice)
+    if(myDevice === undefined || myDevice === null)
         return;
 
     await myDevice.open();
