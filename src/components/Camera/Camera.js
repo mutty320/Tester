@@ -16,7 +16,6 @@ const Container = styled.div`
 
 const Camera = ({
   camera,
-  defaultHoverDisabled,
 }) => {
   return (
     <Container

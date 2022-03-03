@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Camera, EmptyCamera } from "../Camera";
 import PageArrows from '../PageArrows';
+import SingleView from './SingleView';
+
+// hid controller library
 import { start, Mapper, ACTION } from '../../Hid';
+
+// context imports
 import KeyCode from '../../contexts/KeyCode';
 import MouseMove from '../../contexts/MouseMove';
+import SelectedCamera from '../../contexts/SelectedCamera';
 
 const Row = styled.div`
 
@@ -22,15 +28,21 @@ function mapNumber(n, start1, stop1, start2, stop2) {
 const LayoutManager = ({
     camerasGrid,
     currLayout,
+    setSingleView,
 }) => {
 
   const [defaultHoverDisabled, setDefaultHoverDisabled] = useState();
-  const map = new Mapper();
   const [lastDirection, setLastDirection] = useState(null);
   const [lastMoveTime, setLastMoveTime] = useState(0);
   const [hoverId, setHoverId] = useState();
   const [camerasList, setCamerasList] = useState([]);
   const [visibleListLength, setVisibleListLength] = useState();
+  const [showSingleView, setShowSingleView] = useState();
+
+  const { cameraId } = SelectedCamera.useContainer();
+  
+  const map = new Mapper();
+  useEffect(() => {
 
   map.register(ACTION.FIRST, () => {
       console.log("First");
@@ -68,10 +80,10 @@ const LayoutManager = ({
   map.register(ACTION.LEFT_BUTTON_ON_STICK, () => {
       console.log("LEFT_BUTTON_ON_STICK");
   });
-  map.register(ACTION.ROTATE_RIGHT, (value) => {
+  map.register(ACTION.ROTATE_RIGHT, () => {
       console.log("ROTATE_RIGHT");
   });
-  map.register(ACTION.ROTATE_LEFT, (value) => {
+  map.register(ACTION.ROTATE_LEFT, () => {
       console.log("ROTATE_LEFT");
   });
   map.register(ACTION.FRONT, (value) => {
@@ -92,6 +104,7 @@ const LayoutManager = ({
   });
 
   start(map);
+  }, [map])
 
   const { mouseTrigger } = MouseMove.useContainer();
 
@@ -196,6 +209,29 @@ const LayoutManager = ({
     }
   }, [trigger])
 
+  const getCamera = (id) => {
+    let cameraMatch;
+    camerasList.forEach((camera) => {
+      if (camera.id === id) {
+        cameraMatch = camera;
+      }
+    });
+    return cameraMatch;
+  }
+
+  useEffect(() => {
+    // if the camera id is set
+    if (cameraId !== -1 && cameraId) {
+      setShowSingleView(true);      
+    } else {
+      setShowSingleView(false);
+    }
+  }, [cameraId])
+
+  useEffect(() => {
+    setSingleView(showSingleView)
+  }, [showSingleView])
+
   useEffect(() => {
     setHovered(hoverId)
   }, [hoverId])
@@ -246,16 +282,21 @@ const LayoutManager = ({
     };
 
   return (
-    <Container>
-      <PageArrows onSubmit={() => console.log('Left clicked')} />
-      <Row className="row">
-          {
-            buildLayoutView()
-          }
-      </Row>
-      <PageArrows onSubmit={() => console.log('Right clicked')} right />
-    </Container>
-  )
+      <>
+          { showSingleView ? (
+              <SingleView camera={getCamera(cameraId)} />
+          ) : (
+              <Container>
+                  <PageArrows onSubmit={() => console.log("Left clicked")} />
+                  <Row className="row">{buildLayoutView()}</Row>
+                  <PageArrows
+                      onSubmit={() => console.log("Right clicked")}
+                      right
+                  />
+              </Container>
+          )}
+      </>
+  );
 }
 
 export default LayoutManager

@@ -18,6 +18,7 @@ const Grid = (props) => {
   const [camerasGrid, setCamerasGrid] = useState([]);
   const [largestLayout, setLargestLayout] = useState(4); //for updating the visibility property
   const [currLayout, setCurrLayout] = useState(4); //for updating the className dynamically
+  const [hideDisplayOptions, setHideDisplayOptions] = useState();
 
 
   // const setAmountVisibility = (amount, visibility) => {
@@ -107,47 +108,25 @@ const Grid = (props) => {
   //   });
   // };
 
+  const setSingleView = (value) => { // value is true or false
+    setHideDisplayOptions(value)
+  }
+
   return (
     <div>
       <LayoutManager
         camerasGrid={camerasGrid}
         currLayout={currLayout}
+        setSingleView={setSingleView}
       />
-      <div className="row">
+      {
+        !hideDisplayOptions
+        &&
         <DisplayOptions
           onSubmit={setAmountVisibility}
           currLayout={currLayout}
         />
-        {/* <div
-          className="btn-toolbar mb-3"
-          role="toolbar"
-          aria-label="Toolbar with button groups"
-        >
-          <div className="btn-group mr-2" role="group" aria-label="First group">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setAmountVisibility(LayoutSize._2x2, true)}
-            >
-              <BsGridFill size="2em" color="red" />
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setAmountVisibility(LayoutSize._3x3, true)}
-            >
-              <BsFillGrid3X3GapFill size="2em" color="blue" />
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setAmountVisibility(LayoutSize._4x4, true)}
-            >
-              <MdOutlineGrid4X4 size="2em" color="#310080" />
-            </button>
-          </div>
-        </div>*/}
-      </div> 
+      }
     </div>
   );
 };
