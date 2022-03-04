@@ -8,6 +8,9 @@ const KeyCode = () => {
         console.log(`Key pressed: ${event.key}`);
         setKeyCode(event.key);
         setTrigger(prev => !prev); // toggle trigger
+        setTimeout(() => {
+          setKeyCode();
+        }, 50);
     }, []);
     
     useEffect(() => {

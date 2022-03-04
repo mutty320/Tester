@@ -118,6 +118,7 @@ const Grid = (props) => {
         camerasGrid={camerasGrid}
         currLayout={currLayout}
         setSingleView={setSingleView}
+        setAmountVisibility={setAmountVisibility}
       />
       {
         !hideDisplayOptions

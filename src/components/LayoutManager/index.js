@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
+// component imports
 import { Camera, EmptyCamera } from "../Camera";
 import PageArrows from '../PageArrows';
 import SingleView from './SingleView';
+import { LayoutSize } from '../Grid';
 
 // hid controller library
 import { start, Mapper, ACTION } from '../../Hid';
@@ -29,6 +32,7 @@ const LayoutManager = ({
     camerasGrid,
     currLayout,
     setSingleView,
+    setAmountVisibility,
 }) => {
 
   const [defaultHoverDisabled, setDefaultHoverDisabled] = useState();
@@ -39,7 +43,7 @@ const LayoutManager = ({
   const [visibleListLength, setVisibleListLength] = useState();
   const [showSingleView, setShowSingleView] = useState();
 
-  const { cameraId } = SelectedCamera.useContainer();
+  const { cameraId, setCamera } = SelectedCamera.useContainer();
   
   const map = new Mapper();
   useEffect(() => {
@@ -170,6 +174,14 @@ const LayoutManager = ({
       }
     })
     setVisibleListLength(visibleCount);
+
+    // reset which camera is hovered only if hover id does not exist in current layout
+    if (hoverId > currLayout) {
+      setHoverId(1);
+    } else {
+      setHovered(hoverId);
+    }
+
   }, [camerasGrid, currLayout])
 
   const { keyCode, trigger } = KeyCode.useContainer();
@@ -199,6 +211,15 @@ const LayoutManager = ({
       case 'ArrowLeft': navigate('left', null, true);
         break;
       case 'ArrowRight': navigate('right', null, true);
+        break;
+      case '2':
+        setAmountVisibility(LayoutSize._2x2, true)
+        break;
+      case '3':
+        setAmountVisibility(LayoutSize._3x3, true)
+        break;
+      case '4':
+        setAmountVisibility(LayoutSize._4x4, true)
         break;
       default:
         console.log('not an arrow key')
@@ -275,6 +296,10 @@ const LayoutManager = ({
                 >
                     <Camera
                       camera={camera}
+                      selectControl
+                      onClick={() => {
+                        setCamera(camera.id)
+                      }}
                     />
                 </div>
             )
@@ -286,7 +311,6 @@ const LayoutManager = ({
           { showSingleView ? (
               <SingleView
                 camera={getCamera(cameraId)}
-                setShowSingleView={setShowSingleView}
               />
           ) : (
               <Container>

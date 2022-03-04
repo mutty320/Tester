@@ -1,6 +1,8 @@
-import ReactPlayer from "react-player";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from 'styled-components';
+import ReactPlayer from "react-player";
+
+import KeyCode from "../../contexts/KeyCode";
 
 const Container = styled.div`
   width: 100%;
@@ -11,36 +13,76 @@ const Container = styled.div`
 
   ${({hover}) => hover && `
     border-color: orange
+  `};
+
+  ${({selectControl}) => selectControl && `
+    &:hover {
+        cursor: pointer;
+    }
   `}
 `;
 
 const Camera = ({
   camera,
   controls,
+  selectControl, // for clicking / selecting camera to show single view 
+  onClick,
+  onClose,
 }) => {
+
+  const { keyCode, trigger } = KeyCode.useContainer();
+
+  useEffect(() => {
+    if (selectControl) {
+      switch (keyCode) {
+        case 'Enter':
+          onClick();
+          break;
+      
+        default:
+          break;
+      }
+    } else if (onClose) { // single view
+      if (keyCode === 'Escape') {
+        onClose();
+      }
+    }
+  }, [trigger])
+
   return (
-    <Container
-      hover={camera.hover}
-    >
-      <ReactPlayer
-        config={{
-          file: {
-            attributes: {
-              style: {
-                objectFit: "cover",
-                width: "100%",
-                height: "100%",
+    <>
+      {
+        camera && 
+        <Container
+          hover={camera.hover}
+          selectControl={selectControl}
+          onClick={() => {
+            if (selectControl) {
+              onClick();
+            }
+          }}
+        >
+          <ReactPlayer
+            config={{
+              file: {
+                attributes: {
+                  style: {
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
+                  },
+                },
               },
-            },
-          },
-        }}
-        width='100%'
-        height='100%'
-        controls={controls}
-        url={camera.url}
-        type="video/mp4"
-      />
-    </Container>
+            }}
+            width='100%'
+            height='100%'
+            controls={controls}
+            url={camera.url}
+            type="video/mp4"
+          />
+        </Container>
+      }
+    </>
   );
 };
 
