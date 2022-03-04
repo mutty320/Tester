@@ -284,7 +284,10 @@ const LayoutManager = ({
   return (
       <>
           { showSingleView ? (
-              <SingleView camera={getCamera(cameraId)} />
+              <SingleView
+                camera={getCamera(cameraId)}
+                setShowSingleView={setShowSingleView}
+              />
           ) : (
               <Container>
                   <PageArrows onSubmit={() => console.log("Left clicked")} />

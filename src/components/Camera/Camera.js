@@ -16,6 +16,7 @@ const Container = styled.div`
 
 const Camera = ({
   camera,
+  controls,
 }) => {
   return (
     <Container
@@ -35,7 +36,7 @@ const Camera = ({
         }}
         width='100%'
         height='100%'
-        controls
+        controls={controls}
         url={camera.url}
         type="video/mp4"
       />

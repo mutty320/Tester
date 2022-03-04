@@ -1,22 +1,30 @@
 import React, { useEffect } from 'react'
-import { Camera } from "../../Camera";
 import styled from 'styled-components';
 
+import { Camera } from "../../Camera";
+import ControlOverlay from './ControlOverlay';
+
 const Container = styled.div`
-    width: 40rem;
+    width: 60rem;
 `;
 
 const SingleView = ({
-    camera
+    camera,
+    setShowSingleView,
 }) => {
     useEffect(() => {
         console.log(camera);
     }, [camera])
   return (
     <Container>
-        <Camera
-            camera={camera}
-        />
+        <ControlOverlay
+            onClose={() => setShowSingleView(false)}
+        >
+            <Camera
+                camera={camera}
+                controls
+            />
+        </ControlOverlay>
     </Container>
   )
 }
