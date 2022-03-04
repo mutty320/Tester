@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from 'styled-components';
 import ReactPlayer from "react-player";
 
+import OverLay from './OverLay';
 import KeyCode from "../../contexts/KeyCode";
 
 const Container = styled.div`
@@ -14,6 +15,7 @@ const Container = styled.div`
   ${({hover}) => hover && `
     border-color: orange
   `};
+
 
   ${({selectControl}) => selectControl && `
     &:hover {
@@ -28,6 +30,7 @@ const Camera = ({
   selectControl, // for clicking / selecting camera to show single view 
   onClick,
   onClose,
+  defaultPlay,
 }) => {
 
   const { keyCode, trigger } = KeyCode.useContainer();
@@ -62,24 +65,28 @@ const Camera = ({
             }
           }}
         >
-          <ReactPlayer
-            config={{
-              file: {
-                attributes: {
-                  style: {
-                    objectFit: "cover",
-                    width: "100%",
-                    height: "100%",
+          <OverLay>
+            <ReactPlayer
+              config={{
+                file: {
+                  attributes: {
+                    style: {
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "100%",
+                    },
                   },
                 },
-              },
-            }}
-            width='100%'
-            height='100%'
-            controls={controls}
-            url={camera.url}
-            type="video/mp4"
-          />
+              }}
+              width='100%'
+              height='100%'
+              controls={controls}
+              url={camera.url}
+              type="video/mp4"
+              muted={defaultPlay}
+              // playing={defaultPlay}
+            />
+          </OverLay>
         </Container>
       }
     </>

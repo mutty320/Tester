@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 
 // component imports
@@ -39,6 +39,7 @@ const LayoutManager = ({
   const [lastDirection, setLastDirection] = useState(null);
   const [lastMoveTime, setLastMoveTime] = useState(0);
   const [hoverId, setHoverId] = useState();
+  const [actualHoverId, setActualHoverId] = useState();
   const [camerasList, setCamerasList] = useState([]);
   const [visibleListLength, setVisibleListLength] = useState();
   const [showSingleView, setShowSingleView] = useState();
@@ -257,7 +258,13 @@ const LayoutManager = ({
     setHovered(hoverId)
   }, [hoverId])
 
-    const buildLayoutView = () => {
+  useEffect(() => {
+    if (!defaultHoverDisabled) {
+      setHoverId(actualHoverId)
+    }
+  }, [actualHoverId, defaultHoverDisabled])
+
+    const buildLayoutView = useCallback(() => {
 
         const visibleList = camerasList.filter(camera => camera.visibility)
         const emptyCameraList = []
@@ -289,14 +296,13 @@ const LayoutManager = ({
                   className={`${className} p-0`}
                   key={index}
                   onMouseOver={() => {
-                    if (!defaultHoverDisabled) {
-                      setHoverId(camera.id)
-                    }
+                    setActualHoverId(camera.id)
                   }}
                 >
                     <Camera
                       camera={camera}
                       selectControl
+                      defaultPlay
                       onClick={() => {
                         setCamera(camera.id)
                       }}
@@ -304,7 +310,7 @@ const LayoutManager = ({
                 </div>
             )
         )
-    };
+    }, [camerasList, currLayout, defaultHoverDisabled, setCamera, mouseTrigger]);
 
   return (
       <>
@@ -315,7 +321,11 @@ const LayoutManager = ({
           ) : (
               <Container>
                   <PageArrows onSubmit={() => console.log("Left clicked")} />
-                  <Row className="row">{buildLayoutView()}</Row>
+                  <Row className="row">
+                    {
+                      buildLayoutView()
+                    }
+                  </Row>
                   <PageArrows
                       onSubmit={() => console.log("Right clicked")}
                       right
