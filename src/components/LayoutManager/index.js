@@ -46,70 +46,74 @@ const LayoutManager = ({
 
   const { cameraId, setCamera } = SelectedCamera.useContainer();
   
-  const map = new Mapper();
   useEffect(() => {
+    const map = new Mapper();
 
-  map.register(ACTION.FIRST, () => {
-      console.log("First");
-  });
-  map.register(ACTION.SECOND, () => {
-      console.log("SECOND");
-  });
-  map.register(ACTION.THIRD, () => {
-      console.log("THIRD");
-  });
-  map.register(ACTION.FOURTH, () => {
-      console.log("FOURTH");
-  });
-  map.register(ACTION.FIFTH, () => {
-      console.log("FIFTH");
-  });
-  map.register(ACTION.SIXTH, () => {
-      console.log("SIXTH");
-  });
-  map.register(ACTION.SEVENTH, () => {
-      console.log("SEVENTH");
-  });
-  map.register(ACTION.EIGHTH, () => {
-      console.log("EIGHTH");
-  });
-  map.register(ACTION.NINTH, () => {
-      console.log("NINTH");
-  });
-  map.register(ACTION.TENTH, () => {
-      console.log("TENTH");
-  });
-  map.register(ACTION.RIGHT_BUTTON_ON_STICK, () => {
-      console.log("RIGHT_BUTTON_ON_STICK");
-  });
-  map.register(ACTION.LEFT_BUTTON_ON_STICK, () => {
-      console.log("LEFT_BUTTON_ON_STICK");
-  });
-  map.register(ACTION.ROTATE_RIGHT, () => {
-      console.log("ROTATE_RIGHT");
-  });
-  map.register(ACTION.ROTATE_LEFT, () => {
-      console.log("ROTATE_LEFT");
-  });
-  map.register(ACTION.FRONT, (value) => {
-    navigate("up", value);
-  });
-  map.register(ACTION.BACK, (value) => {
-    navigate("down", value);
-  });
-  map.register(ACTION.RIGHT, (value) => {
-    navigate("right", value);
-  });
-  map.register(ACTION.LEFT, (value) => {
-    navigate("left", value);
-  });
-  map.register(ACTION.NOTHING, () => {
-    setLastDirection(null);
-    setLastMoveTime(0);
-  });
+    map.register(ACTION.BUTTONS.FIRST, () => {
+        console.log("YAY! WORKING! First");
+    });
+    map.register(ACTION.BUTTONS.SECOND, () => {
+        console.log("YAY! WORKING! SECOND");
+    });
+    map.register(ACTION.BUTTONS.THIRD, () => {
+        console.log("YAY! WORKING! THIRD");
+    });
+    map.register(ACTION.BUTTONS.FOURTH, () => {
+        console.log("YAY! WORKING! FOURTH");
+    });
+    map.register(ACTION.BUTTONS.FIFTH, () => {
+        console.log("YAY! WORKING! FIFTH");
+    });
+    map.register(ACTION.BUTTONS.SIXTH, () => {
+        console.log("YAY! WORKING! SIXTH");
+    });
+    map.register(ACTION.BUTTONS.SEVENTH, () => {
+        console.log("YAY! WORKING! SEVENTH");
+    });
+    map.register(ACTION.BUTTONS.EIGHTH, () => {
+        console.log("YAY! WORKING! EIGHTH");
+    });
+    map.register(ACTION.BUTTONS.NINTH, () => {
+        console.log("YAY! WORKING! NINTH");
+    });
+    map.register(ACTION.BUTTONS.TENTH, () => {
+        console.log("YAY! WORKING! TENTH");
+    });
+    map.register(ACTION.BUTTONS.RIGHT_BUTTON_ON_STICK, () => {
+        console.log("RIGHT_BUTTON_ON_STICK");
+    });
+    map.register(ACTION.BUTTONS.LEFT_BUTTON_ON_STICK, () => {
+        console.log("LEFT_BUTTON_ON_STICK");
+    });
+    map.register(ACTION.MOVEMENT.ROTATE_RIGHT, () => {
+        console.log("ROTATE_RIGHT");
+    });
+    map.register(ACTION.MOVEMENT.ROTATE_LEFT, () => {
+        console.log("ROTATE_LEFT");
+    });
+    map.register(ACTION.MOVEMENT.FRONT, () => {
+      navigate("up", map.value);
+      // console.log(map.value);
+    });
+    map.register(ACTION.MOVEMENT.BACK, () => {
+      // console.log(map.value);
+      navigate("down", map.value);
+    });
+    map.register(ACTION.MOVEMENT.RIGHT, () => {
+      // console.log(map.value);
+      navigate("right", map.value);
+    });
+    map.register(ACTION.MOVEMENT.LEFT, () => {
+      // console.log(map.value);
+      navigate("left", map.value);
+    });
+    map.register(ACTION.NOTHING, () => {
+      setLastDirection(null);
+      setLastMoveTime(0);
+    });
 
-  start(map);
-  }, [map])
+    start(map);
+  }, [hoverId])
 
   const { mouseTrigger } = MouseMove.useContainer();
 
@@ -121,7 +125,7 @@ const LayoutManager = ({
     setDefaultHoverDisabled(true);  // disable mouse hover (since when calling this function were using the keyboard to navigate)
 
     // if hoverId undefined then current hover = 1 (or page item: 1)
-    let currentHoverId = hoverId;
+    let currentHoverId = hoverId; // avoiding set state async
     if (!hoverId) {
       currentHoverId = 1;
     }
@@ -161,7 +165,7 @@ const LayoutManager = ({
     if (result > 0 && result <= visibleListLength) { // based on visible length
       setHoverId(result);
     }
-  }
+  };
   
   // get the camerasGrid from the prop
   useEffect(() => {
@@ -264,7 +268,7 @@ const LayoutManager = ({
     }
   }, [actualHoverId, defaultHoverDisabled])
 
-    const buildLayoutView = useCallback(() => {
+    const buildLayoutView = () => {
 
         const visibleList = camerasList.filter(camera => camera.visibility)
         const emptyCameraList = []
@@ -310,7 +314,7 @@ const LayoutManager = ({
                 </div>
             )
         )
-    }, [camerasList, currLayout, defaultHoverDisabled, setCamera, mouseTrigger]);
+    };
 
   return (
       <>

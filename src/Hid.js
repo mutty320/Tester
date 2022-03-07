@@ -15,33 +15,36 @@ let MapInstance;
 
 
 export const ACTION = {
-    //====controlled by the 8th Bit====//
-    RIGHT_BUTTON_ON_STICK: Symbol.for("RIGHT_JOY_STICK"),
-    LEFT_BUTTON_ON_STICK: Symbol.for("LEFT_JOY_STICK"),
-    TENTH: Symbol.for("TENTH"),
-    NINTH: Symbol.for("NINTH"),
-
-    //====controlled by the 7th Bit====//
-    FIRST: Symbol.for("FIRST"),
-    SECOND: Symbol.for("SECOND"),
-    THIRD: Symbol.for("THIRD"),
-    FOURTH: Symbol.for("FOURTH"),
-    FIFTH: Symbol.for("FIFTH"),
-    SIXTH: Symbol.for("SIXTH"),
-    SEVENTH: Symbol.for("SEVENTH"),
-    EIGHTH: Symbol.for("EIGHTH"),
-
-    //====controlled by the 6th Bit====//
-    ROTATE_RIGHT: Symbol.for("ROTATE_RIGHT"),
-    ROTATE_LEFT: Symbol.for("ROTATE_LEFT"),
-
-    //====controlled by the 4th Bit====//
-    FRONT: Symbol.for("PUSH_FRONT"),
-    BACK: Symbol.for("PUSH_BACK"),
-
-    //====controlled by the 2th Bit====//
-    RIGHT: Symbol.for("PUSH_RIGHT"),
-    LEFT: Symbol.for("PUSH_LEFT"),
+    MOVEMENT: {
+        //====controlled by the 6th Bit====//
+        ROTATE_RIGHT: Symbol.for("ROTATE_RIGHT"),
+        ROTATE_LEFT: Symbol.for("ROTATE_LEFT"),
+        
+        //====controlled by the 4th Bit====//
+        FRONT: Symbol.for("PUSH_FRONT"),
+        BACK: Symbol.for("PUSH_BACK"),
+    
+        //====controlled by the 2th Bit====//
+        RIGHT: Symbol.for("PUSH_RIGHT"),
+        LEFT: Symbol.for("PUSH_LEFT"),
+    },
+    BUTTONS: {
+        //====controlled by the 8th Bit====//
+        RIGHT_BUTTON_ON_STICK: Symbol.for("RIGHT_JOY_STICK"),
+        LEFT_BUTTON_ON_STICK: Symbol.for("LEFT_JOY_STICK"),
+        TENTH: Symbol.for("TENTH"),
+        NINTH: Symbol.for("NINTH"),
+    
+        //====controlled by the 7th Bit====//
+        FIRST: Symbol.for("FIRST"),
+        SECOND: Symbol.for("SECOND"),
+        THIRD: Symbol.for("THIRD"),
+        FOURTH: Symbol.for("FOURTH"),
+        FIFTH: Symbol.for("FIFTH"),
+        SIXTH: Symbol.for("SIXTH"),
+        SEVENTH: Symbol.for("SEVENTH"),
+        EIGHTH: Symbol.for("EIGHTH"),
+    },
 
     NOTHING: Symbol.for("NOTHING"),
 }
@@ -57,27 +60,20 @@ export const ACTION = {
 export const Mapper = class {
 
     actions = {};
+    value = null;
     prevAction = ACTION.NOTHING;
 
     register = function (action, func) {
         this.actions[action] = func;
     };
 
-    execute = function (action, value) {
-        // if (action !== this.prevAction)
-        // {
-            this.prevAction = action;
+    execute = function (action) {
             if(this.actions[action] !== undefined){
-                this.actions[action](value);
+                this.actions[action]();
             }
         // }
     }
 };
-
-
-//
-// for (let k = 0; k < 10; k++) {
-//     for (let i = 0; i < 1000 * 1000 * 1000; i++);
 
 // sample for using this module
 // const map = new Mapper();
@@ -202,6 +198,23 @@ export function start(mapInstance){
 //                          function myDeviceDetails(myDevice)
 //==========================================================================================
 
+const shouldCallExecute = (action, value) => {
+    // all cases where value is needed
+    if (Object.values(ACTION.MOVEMENT).includes(action)) {
+        // console.log('action is a movement');
+        // update value
+        MapInstance.value = value
+
+        // execute every time value changes
+        return true
+    } else {
+        if (action !== MapInstance.prevAction) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 async function myDeviceDetails(myDevice) {
 
@@ -217,8 +230,10 @@ async function myDeviceDetails(myDevice) {
         const {data, device, reportId} = event;
         // console.log(data)
         const {action, value} = get_action(data);
-        MapInstance.execute(action,value);
-
+        if (shouldCallExecute(action, value)) {
+            MapInstance.execute(action);
+        }
+        MapInstance.prevAction = action;
     });
 }
 
@@ -244,44 +259,44 @@ const get_action = (data) => {
 
     switch (data.getUint8(7)) {
         case 1 :
-            return {action: ACTION.NINTH}
+            return {action: ACTION.BUTTONS.NINTH}
         case 2:
-            return {action: ACTION.TENTH}
+            return {action: ACTION.BUTTONS.TENTH}
         case 4:
-            return {action: ACTION.LEFT_BUTTON_ON_STICK}
+            return {action: ACTION.BUTTONS.LEFT_BUTTON_ON_STICK}
         case 8:
-            return {action: ACTION.RIGHT_BUTTON_ON_STICK}
+            return {action: ACTION.BUTTONS.RIGHT_BUTTON_ON_STICK}
 
     }
 
     switch (data.getUint8(6)) {
         case 1:
-            return {action: ACTION.FIRST}
+            return {action: ACTION.BUTTONS.FIRST}
         case 2:
-            return {action: ACTION.SECOND}
+            return {action: ACTION.BUTTONS.SECOND}
         case 4:
-            return {action: ACTION.THIRD}
+            return {action: ACTION.BUTTONS.THIRD}
         case 8:
-            return {action: ACTION.FOURTH}
+            return {action: ACTION.BUTTONS.FOURTH}
         case 16:
-            return {action: ACTION.FIFTH}
+            return {action: ACTION.BUTTONS.FIFTH}
         case 32:
-            return {action: ACTION.SIXTH}
+            return {action: ACTION.BUTTONS.SIXTH}
         case 64:
-            return {action: ACTION.SEVENTH}
+            return {action: ACTION.BUTTONS.SEVENTH}
         case 128:
-            return {action: ACTION.EIGHTH}
+            return {action: ACTION.BUTTONS.EIGHTH}
     }
 
     switch (data.getUint8(5)) {
         case 0:
             return {
-                action: ACTION.ROTATE_LEFT,
+                action: ACTION.MOVEMENT.ROTATE_LEFT,
                 value: 255 - data.getUint8(4)
             }
         case 3:
             return {
-                action: ACTION.ROTATE_RIGHT,
+                action: ACTION.MOVEMENT.ROTATE_RIGHT,
                 value: data.getUint8(4),
             };
 
@@ -300,12 +315,12 @@ const get_action = (data) => {
     switch (data.getUint8(3)) {
         case 0:
             return {
-                action: ACTION.FRONT,
+                action: ACTION.MOVEMENT.FRONT,
                 value: 255 - data.getUint8(2)
             }
         case 3:
             return {
-                action: ACTION.BACK,
+                action: ACTION.MOVEMENT.BACK,
                 value: data.getUint8(2)
             }
     }
@@ -313,12 +328,12 @@ const get_action = (data) => {
     switch (data.getUint8(1)) {
         case 0:
             return {
-                action: ACTION.LEFT,
+                action: ACTION.MOVEMENT.LEFT,
                 value: 255 - data.getUint8(0)
             }
         case 3:
             return {
-                action: ACTION.RIGHT,
+                action: ACTION.MOVEMENT.RIGHT,
                 value: data.getUint8(0)
             };
         default:

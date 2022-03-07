@@ -1,10 +1,5 @@
 // import ReactPlayer from "react-player";
 import React, { useState, useEffect } from "react";
-// import { BsFillGrid3X3GapFill, BsGridFill } from "react-icons/bs";
-
-// import { MdOutlineGrid4X4 } from "react-icons/md";
-
-// import { FaForward, FaBackward, FaPlay, FaPause } from "react-icons/fa";
 import DisplayOptions from './DisplayOptions';
 import LayoutManager from './LayoutManager';
 

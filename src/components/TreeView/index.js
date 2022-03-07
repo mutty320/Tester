@@ -65,7 +65,9 @@ const CameraTreeView = ({
                               <TreeItem
                                   nodeId={`${camera.id}`}
                                   label={camera.name}
-                              />
+                              >
+                                  <h1>TEST</h1>
+                              </TreeItem>
                           ))}
                       </TreeItem>
                   );
