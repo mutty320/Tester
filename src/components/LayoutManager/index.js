@@ -43,6 +43,7 @@ const LayoutManager = ({
   const [camerasList, setCamerasList] = useState([]);
   const [visibleListLength, setVisibleListLength] = useState();
   const [showSingleView, setShowSingleView] = useState();
+  const [playBackEvent, setPlayBackEvent] = useState();
 
   const { cameraId, setCamera } = SelectedCamera.useContainer();
   
@@ -51,6 +52,8 @@ const LayoutManager = ({
 
     map.register(ACTION.BUTTONS.FIRST, () => {
         console.log("YAY! WORKING! First");
+        // close single view
+        setCamera(-1);
     });
     map.register(ACTION.BUTTONS.SECOND, () => {
         console.log("YAY! WORKING! SECOND");
@@ -84,28 +87,37 @@ const LayoutManager = ({
     });
     map.register(ACTION.BUTTONS.LEFT_BUTTON_ON_STICK, () => {
         console.log("LEFT_BUTTON_ON_STICK");
+        // select video
+        setCamera(hoverId)
     });
     map.register(ACTION.MOVEMENT.ROTATE_RIGHT, () => {
         console.log("ROTATE_RIGHT");
+        setPlayBackEvent({type: "ROTATE_RIGHT", value: map.value});
+        setCamera(hoverId);
     });
     map.register(ACTION.MOVEMENT.ROTATE_LEFT, () => {
         console.log("ROTATE_LEFT");
+        setPlayBackEvent({type: "ROTATE_LEFT", value: map.value});
     });
     map.register(ACTION.MOVEMENT.FRONT, () => {
       navigate("up", map.value);
+      setPlayBackEvent({type: "up", value: map.value});
       // console.log(map.value);
     });
     map.register(ACTION.MOVEMENT.BACK, () => {
       // console.log(map.value);
       navigate("down", map.value);
+      setPlayBackEvent({type: "down", value: map.value});
     });
     map.register(ACTION.MOVEMENT.RIGHT, () => {
       // console.log(map.value);
       navigate("right", map.value);
+      setPlayBackEvent({type: "right", value: map.value});
     });
     map.register(ACTION.MOVEMENT.LEFT, () => {
       // console.log(map.value);
       navigate("left", map.value);
+      setPlayBackEvent({type: "left", value: map.value});
     });
     map.register(ACTION.NOTHING, () => {
       setLastDirection(null);
@@ -321,6 +333,7 @@ const LayoutManager = ({
           { showSingleView ? (
               <SingleView
                 camera={getCamera(cameraId)}
+                event={playBackEvent}
               />
           ) : (
               <Container>

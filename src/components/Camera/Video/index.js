@@ -1,6 +1,7 @@
-import React, { forwardRef, useContext, useEffect } from 'react';
+import React, { forwardRef, useContext, useEffect, useState } from 'react';
 import { zoomableContext } from 'react-zoomable-media';
 import styled from 'styled-components';
+import KeyCode from '../../../contexts/KeyCode';
 
 const VideoElement = styled.video`
   object-fit: cover;
@@ -11,20 +12,40 @@ const Video = forwardRef(({
   controls,
   url,
   onLoadedMetadata,
-  defaultPlay
+  defaultPlay,
+  event,
 }, ref) => {
   const context = useContext(zoomableContext);
 
-  // useEffect(() => {
-  //   if (context) {
-  //     (async () => {
-  //       context.zoomIn();
-  //       context.handlePointerDown({ pageX: 0, pageY: 0, pointerId: 1, preventDefault(){} })
-  //       context.handlePointerMove({ pageX: 100, pageY: 100, pointerId: 1, preventDefault(){} })
-  //       context.handlePointerUp({ pointerId: 1 });
-  //     })();
-  //   }
-  // }, [])
+  const { keyCode, trigger } = KeyCode.useContainer();
+
+  useEffect(() => {
+    if (event) {
+
+      switch (event.type) {
+        case 'up':
+          context.handleKeydown( { custom: true, direction: 'up' } )
+          break;
+        case 'down':
+          context.handleKeydown( { custom: true, direction: 'down'});
+          break;
+        case 'right':
+          context.handleKeydown( { custom: true, direction: 'right'});
+          break;
+        case 'left':
+          context.handleKeydown( { custom: true, direction: 'left'});
+          break;
+        case 'ROTATE_RIGHT':
+          context.zoomIn();
+          break;
+        case 'ROTATE_LEFT':
+          context.zoomOut();
+          break;
+        default:
+          break;
+      }
+    }
+  }, [event])
   
   return (
     <VideoElement

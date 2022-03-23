@@ -38,6 +38,7 @@ const Camera = ({
   onClick,
   onClose,
   defaultPlay,
+  event,
 }) => {
   const { keyCode, trigger } = KeyCode.useContainer();
   const ref = useRef();
@@ -76,10 +77,10 @@ const Camera = ({
             {controls ? (
               <Zoomable
                 enable
-                maxZoom={4}
-                moveStep={1}
+                maxZoom={6}
+                moveStep={10}
                 wheelZoomRatio={1}
-                zoomStep={1}
+                zoomStep={0.5}
               >
                 <ZoomableVideo
                   render={({ onMediaReady }) => (
@@ -89,6 +90,7 @@ const Camera = ({
                       controls={controls}
                       url={camera.url}
                       defaultPlay={defaultPlay}
+                      event={event}
                     />
                   )}
                 />

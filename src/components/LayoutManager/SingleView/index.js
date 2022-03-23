@@ -12,6 +12,7 @@ const Container = styled.div`
 
 const SingleView = ({
     camera,
+    event,
 }) => {
   const { setCamera } = SelectedCamera.useContainer();
 
@@ -31,6 +32,7 @@ const SingleView = ({
                 camera={camera}
                 controls
                 onClose={closeView}
+                event={event}
             />
         </ControlOverlay>
     </Container>
