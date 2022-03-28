@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
+import './App.css';
 
 // context imports
 import KeyCode from './contexts/KeyCode';
 import MouseMove from './contexts/MouseMove';
 import SelectedCamera from './contexts/SelectedCamera';
+import VideoRef from './contexts/VideoRef';
 
 // component imports
-import Grid from "./components/Grid";
-import TreeView from "./components/TreeView";
+import Grid from './components/Grid';
+import TreeView from './components/TreeView';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const fileData = require("./components/config"); //now f is an object holding array of objects
+const fileData = require('./components/config'); //now f is an object holding array of objects
 console.log(fileData);
-
 
 //once weve popelated the arr each item is a group that holdes:
 // 1.Camera_group- (group id) which will b the main banner
@@ -27,38 +27,39 @@ console.log(fileData);
 
 //================================================
 const App = () => {
-
   const [cameraGroups, setCameraGroups] = useState([]);
 
-    useEffect(() => {
-      const tempCameraGroups = [];
-      for (let i in fileData.GROUPS) tempCameraGroups.push(fileData.GROUPS[i]);
-      setCameraGroups(tempCameraGroups);
-    }, []);
+  useEffect(() => {
+    const tempCameraGroups = [];
+    for (let i in fileData.GROUPS) tempCameraGroups.push(fileData.GROUPS[i]);
+    setCameraGroups(tempCameraGroups);
+  }, []);
 
-    return (
-      <KeyCode.Provider>
-        <MouseMove.Provider>
-          <SelectedCamera.Provider>
-            <div className="container" style={{marginTop: '5rem', display: 'flex'}}>
-              {
-                cameraGroups.length > 0 &&
+  return (
+    <KeyCode.Provider>
+      <MouseMove.Provider>
+        <SelectedCamera.Provider>
+          <VideoRef.Provider>
+            <div
+              className="container"
+              style={{ marginTop: '5rem', display: 'flex' }}
+            >
+              {cameraGroups.length > 0 && (
                 <>
-                  <TreeView
-                    CameraGroups={cameraGroups}
-                    />
+                  <TreeView CameraGroups={cameraGroups} />
                   <div>
                     <div className="container">
                       <Grid cameras={cameraGroups} />
                     </div>
                   </div>
                 </>
-              }
+              )}
             </div>
-          </SelectedCamera.Provider>
-        </MouseMove.Provider>
-      </KeyCode.Provider>
-    );
-}
+          </VideoRef.Provider>
+        </SelectedCamera.Provider>
+      </MouseMove.Provider>
+    </KeyCode.Provider>
+  );
+};
 
 export default App;

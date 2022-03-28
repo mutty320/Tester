@@ -1,7 +1,6 @@
-import React, { forwardRef, useContext, useEffect, useState } from 'react';
+import React, { forwardRef, useContext, useEffect, useState, useRef } from 'react';
 import { zoomableContext } from 'react-zoomable-media';
 import styled from 'styled-components';
-import KeyCode from '../../../contexts/KeyCode';
 
 const VideoElement = styled.video`
   object-fit: cover;
@@ -16,8 +15,6 @@ const Video = forwardRef(({
   event,
 }, ref) => {
   const context = useContext(zoomableContext);
-
-  const { keyCode, trigger } = KeyCode.useContainer();
 
   useEffect(() => {
     if (event) {

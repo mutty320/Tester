@@ -8,6 +8,7 @@ import {
 import OverLay from './OverLay';
 import KeyCode from '../../contexts/KeyCode';
 import Video from './Video';
+import VideoRef from '../../contexts/VideoRef';
 
 const Container = styled.div`
   width: 100%;
@@ -41,7 +42,14 @@ const Camera = ({
   event,
 }) => {
   const { keyCode, trigger } = KeyCode.useContainer();
+  const { setVideoRef } = VideoRef.useContainer();
+
   const ref = useRef();
+
+  useEffect(() => {
+    if(ref)
+      setVideoRef(ref);
+  }, [ref, setVideoRef]);
 
   useEffect(() => {
     if (selectControl) {
@@ -87,7 +95,7 @@ const Camera = ({
                     <Video
                       ref={ref}
                       onLoadedMetadata={() => onMediaReady(ref)}
-                      controls={controls}
+                      // controls={controls}
                       url={camera.url}
                       defaultPlay={defaultPlay}
                       event={event}
