@@ -11,9 +11,7 @@ import { LayoutSize } from '../Grid';
 import { start, Mapper, ACTION } from '../../Hid';
 
 // context imports
-import KeyCode from '../../contexts/KeyCode';
-import MouseMove from '../../contexts/MouseMove';
-import SelectedCamera from '../../contexts/SelectedCamera';
+import { KeyCode, MouseMove, SelectedCamera } from '../../contexts'
 
 const Row = styled.div`
 

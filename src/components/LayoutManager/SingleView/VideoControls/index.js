@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
-import VideoRef from '../../../../contexts/VideoRef';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+
+import { VideoRef, KeyCode } from '../../../../contexts';
 
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
   position: absolute;
   color: white;
   bottom: 0;
@@ -31,12 +38,56 @@ const PauseIconStyled = styled(PauseIcon)`
   }
 `;
 
+const FastForwardIconStyled = styled(FastForwardIcon)`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const FastRewindIconStyled = styled(FastRewindIcon)`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const VideoControls = () => {
   const { videoRef } = VideoRef.useContainer();
+  const { keyCode, trigger } = KeyCode.useContainer();
+
   const [videoPlaying, setVideoPlaying] = useState();
+  const [videoTime, setVideoTime] = useState();
+
+  useEffect(() => {
+    switch (keyCode) {
+      case 'ArrowRight':
+        handleFastForward();
+        break;
+      case 'ArrowLeft':
+        handleFastRewind();
+        break;
+      case ' ':
+        togglePlay();
+        break;
+      default:
+        break;
+    }
+  }, [trigger]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      setVideoTime(videoRef.current.currentTime);
+    }
+  }, [videoRef.current?.currentTime, videoRef]);
+
+  const togglePlay = () => {
+    if (videoPlaying) {
+      handlePauseVideo();
+    } else {
+      handlePlayVideo();
+    }
+  };
 
   const handlePlayVideo = () => {
-    // console.log(videoRef.current);
     videoRef.current.play();
     setVideoPlaying(true);
   };
@@ -46,13 +97,28 @@ const VideoControls = () => {
     setVideoPlaying(false);
   };
 
+  const handleFastRewind = () => {
+    videoRef.current.currentTime -= 5;
+  };
+
+  const handleFastForward = () => {
+    if (videoRef.current.duration < videoRef.current.currentTime + 5) {
+      videoRef.current.currentTime = videoRef.current.duration - .1; // There was a weird issue not showing the last frame of the video.
+    } else {
+      videoRef.current.currentTime += 5;
+    }
+  };
+
   return (
     <Container>
+      <FastRewindIconStyled onClick={handleFastRewind} />
       {videoPlaying ? (
         <PauseIconStyled onClick={handlePauseVideo} />
       ) : (
         <PlayIcon onClick={handlePlayVideo} />
       )}
+      <FastForwardIconStyled onClick={handleFastForward} />
+      <div>{videoTime && parseInt(videoTime)}</div>
     </Container>
   );
 };

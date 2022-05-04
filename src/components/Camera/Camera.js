@@ -6,9 +6,9 @@ import {
 } from 'react-zoomable-media';
 
 import OverLay from './OverLay';
-import KeyCode from '../../contexts/KeyCode';
 import Video from './Video';
-import VideoRef from '../../contexts/VideoRef';
+
+import { KeyCode, VideoRef } from '../../contexts';
 
 const Container = styled.div`
   width: 100%;
