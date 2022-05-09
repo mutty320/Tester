@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   ZoomableVideo,
   Zoomable,
-} from 'react-zoomable-media';
+} from 'react-zoomable-media-modified';
 
 import OverLay from './OverLay';
 import Video from './Video';

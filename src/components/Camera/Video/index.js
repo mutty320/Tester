@@ -5,7 +5,7 @@ import React, {
   useState,
   useRef,
 } from 'react';
-import { zoomableContext } from 'react-zoomable-media';
+import { zoomableContext } from 'react-zoomable-media-modified';
 import styled from 'styled-components';
 import { SelectedCamera, VideoRef } from '../../../contexts';
 
