@@ -10,6 +10,7 @@ import _4x4_svg from '../../assets/svg/_4x4.svg';
 const Container = styled.div`
     border: 1px solid black;
     display: flex;
+    justify-content: center;
 `;
 
 const DisplayOptions = ({

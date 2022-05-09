@@ -51,10 +51,14 @@ const FastRewindIconStyled = styled(FastRewindIcon)`
 `;
 
 const VideoControls = () => {
-  const { videoRef } = VideoRef.useContainer();
+  const {
+    videoRef,
+    playVideo,
+    pauseVideo,
+    togglePlay,
+    videoPlaying } = VideoRef.useContainer();
   const { keyCode, trigger } = KeyCode.useContainer();
 
-  const [videoPlaying, setVideoPlaying] = useState();
   const [videoTime, setVideoTime] = useState();
 
   useEffect(() => {
@@ -79,23 +83,6 @@ const VideoControls = () => {
     }
   }, [videoRef.current?.currentTime, videoRef]);
 
-  const togglePlay = () => {
-    if (videoPlaying) {
-      handlePauseVideo();
-    } else {
-      handlePlayVideo();
-    }
-  };
-
-  const handlePlayVideo = () => {
-    videoRef.current.play();
-    setVideoPlaying(true);
-  };
-
-  const handlePauseVideo = () => {
-    videoRef.current.pause();
-    setVideoPlaying(false);
-  };
 
   const handleFastRewind = () => {
     videoRef.current.currentTime -= 5;
@@ -113,9 +100,9 @@ const VideoControls = () => {
     <Container>
       <FastRewindIconStyled onClick={handleFastRewind} />
       {videoPlaying ? (
-        <PauseIconStyled onClick={handlePauseVideo} />
+        <PauseIconStyled onClick={pauseVideo} />
       ) : (
-        <PlayIcon onClick={handlePlayVideo} />
+        <PlayIcon onClick={playVideo} />
       )}
       <FastForwardIconStyled onClick={handleFastForward} />
       <div>{videoTime && parseInt(videoTime)}</div>

@@ -55,6 +55,7 @@ const LayoutManager = ({
     });
     map.register(ACTION.BUTTONS.SECOND, () => {
         console.log("YAY! WORKING! SECOND");
+        setPlayBackEvent({ type: "SECOND" });
     });
     map.register(ACTION.BUTTONS.THIRD, () => {
         console.log("YAY! WORKING! THIRD");
@@ -82,16 +83,21 @@ const LayoutManager = ({
     });
     map.register(ACTION.BUTTONS.RIGHT_BUTTON_ON_STICK, () => {
         console.log("RIGHT_BUTTON_ON_STICK");
+        setPlayBackEvent({ type: "RIGHT_BUTTON_ON_STICK" });
+        // close single view
+        // setCamera(-1);
+        console.log("RIGHT_BUTTON_ON_STICK")
     });
     map.register(ACTION.BUTTONS.LEFT_BUTTON_ON_STICK, () => {
         console.log("LEFT_BUTTON_ON_STICK");
+        setPlayBackEvent({ type: "LEFT_BUTTON_ON_STICK" });
         // select video
         setCamera(hoverId)
     });
     map.register(ACTION.MOVEMENT.ROTATE_RIGHT, () => {
         console.log("ROTATE_RIGHT");
         setPlayBackEvent({type: "ROTATE_RIGHT", value: map.value});
-        setCamera(hoverId);
+        // setCamera(hoverId);
     });
     map.register(ACTION.MOVEMENT.ROTATE_LEFT, () => {
         console.log("ROTATE_LEFT");
