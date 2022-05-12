@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 // context imports
-import KeyCode from './contexts/KeyCode';
-import MouseMove from './contexts/MouseMove';
-import SelectedCamera from './contexts/SelectedCamera';
-import VideoRef from './contexts/VideoRef';
+import { KeyCode, MouseMove, SelectedCamera, VideoRef, useDeviceConnection } from './contexts';
 
 // component imports
 import Grid from './components/Grid';
 import TreeView from './components/TreeView';
+import DeviceUI from './components/DeviceUI';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const fileData = require('./components/config'); //now f is an object holding array of objects
 console.log(fileData);
@@ -40,21 +38,24 @@ const App = () => {
       <MouseMove.Provider>
         <SelectedCamera.Provider>
           <VideoRef.Provider>
-            <div
-              className="container"
-              style={{ marginTop: '5rem', display: 'flex' }}
-            >
-              {cameraGroups.length > 0 && (
-                <>
-                  <TreeView CameraGroups={cameraGroups} />
-                  <div>
-                    <div className="container">
-                      <Grid cameras={cameraGroups} />
+            <useDeviceConnection.Provider>
+            <DeviceUI />
+              <div
+                className="container"
+                style={{ marginTop: '5rem', display: 'flex' }}
+              >
+                {cameraGroups.length > 0 && (
+                  <>
+                    <TreeView CameraGroups={cameraGroups} />
+                    <div>
+                      <div className="container">
+                        <Grid cameras={cameraGroups} />
+                      </div>
                     </div>
-                  </div>
-                </>
-              )}
-            </div>
+                  </>
+                )}
+              </div>
+            </useDeviceConnection.Provider>
           </VideoRef.Provider>
         </SelectedCamera.Provider>
       </MouseMove.Provider>

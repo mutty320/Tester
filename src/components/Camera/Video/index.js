@@ -65,6 +65,7 @@ const Video = forwardRef(
             break;
         }
 
+        // todo: map event.value so that it scales
         if (!panMode) {
           switch (event.type) {
             case 'right':

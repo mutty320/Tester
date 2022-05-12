@@ -7,6 +7,7 @@ const JOYSTICK = 1678;
 // const MOUSE = 1267;
 const MOUSE = 14648;
 let MapInstance;
+let ConnectionInstance;
 
 
 //==========================================================================================
@@ -75,6 +76,26 @@ export const Mapper = class {
     }
 };
 
+export const Connection = class {
+    // connected = false;
+
+    onConnectFunc = () => {};
+
+    onDisconnectFunc = () => {};
+
+    connect = async () => {
+        const devices = await navigator.hid.requestDevice({filters: []});
+        const myDevice = findMyDeviceInList(devices);
+
+        const result = myDeviceDetails(myDevice);
+        console.log(result);
+        if (ConnectionInstance && result && myDevice !== null){
+            // device connected successfully
+            this.onConnectFunc();
+        }
+    }
+}
+
 // sample for using this module
 // const map = new Mapper();
 // map.register(ACTION.NOTHING, ()=>{console.log("NOTHING")})
@@ -131,6 +152,10 @@ function addListeners() {
 
     navigator.hid.addEventListener('disconnect', ({device}) => {
         console.log(`HID disconnected: ${device.productName}`);
+
+        if (ConnectionInstance){
+            ConnectionInstance.onDisconnectFunc();
+        }
     });
 
     navigator.hid.addEventListener('connect', ({device}) => {
@@ -159,18 +184,26 @@ export function start(mapInstance){
 
 
 
-        if(!myDevice) {
-            let requestButton = document.getElementById("hid-device");
-            requestButton.innerHTML = "click here to add a new device";
-            requestButton.addEventListener("click", async () => {
+        // if(!myDevice) {
+            // let requestButton = document.getElementById("hid-device");
+            // requestButton.innerHTML = "click here to add a new device";
+            // requestButton.style.cssText = `
+            //     border: 1px solid;
+            //     width: fit-content;
+            //     padding: 9px;
+            //     margin: 5px;
+            //     border-radius: 5px;
+            //     cursor: pointer;
+            // `;
 
-                devices = await navigator.hid.requestDevice({filters: []});
-                myDevice = findMyDeviceInList(devices);
-                myDeviceDetails(myDevice);
-            });
+            // requestButton.addEventListener("click", new Connection().connect);
+        // }
+        // else
+        //     myDeviceDetails(myDevice)
+
+        if(myDevice) {
+            myDeviceDetails(myDevice);
         }
-        else
-            myDeviceDetails(myDevice)
 
     });
 
@@ -193,6 +226,11 @@ export function start(mapInstance){
     });
 
 }
+
+export const startConnection = (connectionInstance) => {
+    ConnectionInstance = connectionInstance;
+}
+
 // start()
 //==========================================================================================
 //                          function myDeviceDetails(myDevice)
@@ -220,7 +258,7 @@ async function myDeviceDetails(myDevice) {
 
     console.log(myDevice)
     if(myDevice === undefined || myDevice === null)
-        return;
+        return false;
 
     await myDevice.open();
 
@@ -235,6 +273,9 @@ async function myDeviceDetails(myDevice) {
         }
         MapInstance.prevAction = action;
     });
+
+    //? why causing error
+    return true; // return wether the device was opened
 }
 
 // if (device.productId !== 28 && reportId !== 0) return;//?
