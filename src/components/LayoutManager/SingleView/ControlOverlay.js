@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { VideoRef } from '../../../contexts';
 
 import ExitButton from './ExitButton';
 import PanModeIndicator from './PanModeIndicator';
@@ -13,13 +14,15 @@ const ControlOverlay = ({
     children,
     onClose,
 }) => {
+  const { panMode } = VideoRef.useContainer();
+
   return (
     <Container>
         <PanModeIndicator />
         <ExitButton
             onSubmit={() =>onClose()}
         />
-        <VideoControls />
+        { !panMode && <VideoControls /> }
         { children }
     </Container>
   )

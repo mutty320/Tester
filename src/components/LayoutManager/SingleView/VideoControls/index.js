@@ -50,6 +50,28 @@ const FastRewindIconStyled = styled(FastRewindIcon)`
   }
 `;
 
+const Align = styled.div`
+  width: 100%;
+  height: 10px;
+  position: absolute;
+  z-index: 10;
+  bottom: 20px;
+  margin: 0 auto;
+`;
+
+const Timeline = styled.div`
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  background: white;
+`;
+
+const Bar = styled.div`
+  height: 100%;
+  width: ${({$progress}) => $progress ? $progress : 0}%;
+  background: #2e88ff;
+`;
+
 const VideoControls = () => {
   const {
     videoRef,
@@ -97,16 +119,26 @@ const VideoControls = () => {
   };
 
   return (
-    <Container>
-      <FastRewindIconStyled onClick={handleFastRewind} />
-      {videoPlaying ? (
-        <PauseIconStyled onClick={pauseVideo} />
-      ) : (
-        <PlayIcon onClick={playVideo} />
-      )}
-      <FastForwardIconStyled onClick={handleFastForward} />
-      <div>{videoTime && parseInt(videoTime)}</div>
-    </Container>
+    <>
+      <Container>
+        <FastRewindIconStyled onClick={handleFastRewind} />
+        {videoPlaying ? (
+          <PauseIconStyled onClick={pauseVideo} />
+        ) : (
+          <PlayIcon onClick={playVideo} />
+        )}
+        <FastForwardIconStyled onClick={handleFastForward} />
+        <div>{videoTime && parseInt(videoTime)}</div>
+      </Container>
+      <Align>
+        <Timeline>
+          <Bar
+            $progress={videoRef.current ? ((videoRef.current.currentTime/videoRef.current.duration)*100) : 0}
+          >
+          </Bar>
+        </Timeline>
+      </Align>
+    </>
   );
 };
 
