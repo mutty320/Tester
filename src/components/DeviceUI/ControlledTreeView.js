@@ -7,6 +7,7 @@ import TreeItem from '@mui/lab/TreeItem';
 import Connection from './Connection';
 import ConnectionLabel from './Connection/ConnectionLabel';
 import { useDeviceConnection } from '../../contexts';
+import Reference from './Reference';
 
 export default function ControlledTreeView() {
   const [expanded, setExpanded] = React.useState([]);
@@ -58,20 +59,12 @@ export default function ControlledTreeView() {
         multiSelect
       >
         <TreeItem nodeId="1" label={<ConnectionLabel />}>
-
-          {/* Connection component */}
-
           <Connection
             CloseView={closeConnectionView}
           />
         </TreeItem>
         <TreeItem nodeId="2" label="Reference">
-
-          {/* Reference component */}
-
-          <div>
-            Reference
-          </div>
+          <Reference />
         </TreeItem>
       </TreeView>
     </Box>
