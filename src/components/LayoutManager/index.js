@@ -50,21 +50,24 @@ const LayoutManager = ({
 
     map.register(ACTION.BUTTONS.FIRST, () => {
         console.log("YAY! WORKING! First");
-        // close single view
-        setCamera(-1);
+        // View 2x2
+        setAmountVisibility(LayoutSize._2x2, true)
     });
     map.register(ACTION.BUTTONS.SECOND, () => {
         console.log("YAY! WORKING! SECOND");
-        setPlayBackEvent({ type: "SECOND" });
     });
     map.register(ACTION.BUTTONS.THIRD, () => {
         console.log("YAY! WORKING! THIRD");
+        // View 3x3
+        setAmountVisibility(LayoutSize._3x3, true)
     });
     map.register(ACTION.BUTTONS.FOURTH, () => {
         console.log("YAY! WORKING! FOURTH");
     });
     map.register(ACTION.BUTTONS.FIFTH, () => {
         console.log("YAY! WORKING! FIFTH");
+        // View 4x4
+        setAmountVisibility(LayoutSize._4x4, true)
     });
     map.register(ACTION.BUTTONS.SIXTH, () => {
         console.log("YAY! WORKING! SIXTH");
@@ -91,8 +94,10 @@ const LayoutManager = ({
     map.register(ACTION.BUTTONS.LEFT_BUTTON_ON_STICK, () => {
         console.log("LEFT_BUTTON_ON_STICK");
         setPlayBackEvent({ type: "LEFT_BUTTON_ON_STICK" });
-        // select video
-        setCamera(hoverId)
+        // select video if not in single view
+        if (!showSingleView) {
+          setCamera(hoverId)
+        }
     });
     map.register(ACTION.MOVEMENT.ROTATE_RIGHT, () => {
         console.log("ROTATE_RIGHT");
@@ -333,16 +338,15 @@ const LayoutManager = ({
     };
 
   return (
-      <>
-          { showSingleView ? (
-              <SingleView
-                camera={getCamera(cameraId)}
-                event={playBackEvent}
-              />
-          ) : (
-            <Container><Row className="row">{buildLayoutView()}</Row></Container>
-          )}
-      </>
+    <>
+      {showSingleView ? (
+        <SingleView camera={getCamera(cameraId)} event={playBackEvent} />
+      ) : (
+        <Container>
+          <Row className="row">{buildLayoutView()}</Row>
+        </Container>
+      )}
+    </>
   );
 }
 

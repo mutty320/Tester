@@ -16,11 +16,12 @@ const Container = styled.div`
 
   border: 2px solid #181c1e;
   background: black;
-
-  ${({ hover }) =>
-    hover &&
-    `
-    border-color: orange
+  
+  ${({ hover, controls }) =>
+  /* Don't show hovered if in single view (controls) */
+  hover && !controls &&
+  `
+  border-color: orange
   `};
 
   ${({ selectControl }) =>
@@ -74,6 +75,7 @@ const Camera = ({
       {camera && (
         <Container
           hover={camera.hover}
+          controls={controls}
           selectControl={selectControl}
           onClick={() => {
             if (selectControl) {

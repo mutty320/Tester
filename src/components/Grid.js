@@ -16,38 +16,38 @@ const Grid = (props) => {
   const [hideDisplayOptions, setHideDisplayOptions] = useState();
 
 
-  // const setAmountVisibility = (amount, visibility) => {
-  //   setCurrLayout(amount);
-  //   const tempCameras = [];
-  //   for (let index = 0; index < camerasGrid.length; index++) {
-  //     const element = camerasGrid[index];
-  //     element.visibility = index <= amount - 1 ? visibility : !visibility;
-
-  //     tempCameras.push(element);
-  //   }
-  //   setCamerasGrid(tempCameras);
-  // };
-
   const setAmountVisibility = (amount, visibility) => {
     setCurrLayout(amount);
+    const tempCameras = [];
+    for (let index = 0; index < camerasGrid.length; index++) {
+      const element = camerasGrid[index];
+      element.visibility = index <= amount - 1 ? visibility : !visibility;
 
-    const tempLargestLayout = Math.min(Math.max(largestLayout, amount), camerasGrid.length) // largestLayout cannot be greater than total cameras
-    
-    setCamerasGrid((prevVisibility) => {
-      const tempCameras = prevVisibility;
-      
-      for (let index = 0; index < tempLargestLayout; index++) {
-        let element = camerasGrid[index];
-        element.visibility = index <= amount - 1 ? visibility : !visibility;
-        
-        tempCameras[index] = element;
-      }
-      
-      return tempCameras;
-    });
-
-    setLargestLayout(tempLargestLayout);
+      tempCameras.push(element);
+    }
+    setCamerasGrid(tempCameras);
   };
+
+  // const setAmountVisibility = (amount, visibility) => {
+  //   setCurrLayout(amount);
+
+  //   const tempLargestLayout = Math.min(Math.max(largestLayout, amount), camerasGrid.length) // largestLayout cannot be greater than total cameras
+    
+  //   setCamerasGrid((prevVisibility) => {
+  //     const tempCameras = prevVisibility;
+      
+  //     for (let index = 0; index < tempLargestLayout; index++) {
+  //       let element = camerasGrid[index];
+  //       element.visibility = index <= amount - 1 ? visibility : !visibility;
+        
+  //       tempCameras[index] = element;
+  //     }
+      
+  //     return tempCameras;
+  //   });
+
+  //   setLargestLayout(tempLargestLayout);
+  // };
 
   useEffect(() => {
     console.log("currentLayout: ", currLayout);

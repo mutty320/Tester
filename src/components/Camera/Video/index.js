@@ -43,7 +43,7 @@ const Video = forwardRef(
         switch (event.type) {
           case 'SECOND':
             // toggle pan mode
-            setPanMode(prev => !prev);
+            // setPanMode(prev => !prev);
             break;
           case 'LEFT_BUTTON_ON_STICK':
             // toggle video play
