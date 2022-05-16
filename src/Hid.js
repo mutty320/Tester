@@ -159,8 +159,28 @@ function addListeners() {
     });
 
     navigator.hid.addEventListener('connect', ({device}) => {
-        console.log(`HID connected: ${device.productName}`);
+        console.log(`HID connected: ${device.productName}`)
+    })
+
+    window.addEventListener("gamepadconnected", (event) => 
+    {
+        console.log("gamepadconnected");
+        console.log(event.gamepad)
+        // const first = document.getElementById("firstCinnection").innerHTML;
+    
+        // if(first === "true"){
+        //     document.getElementById("firstCinnection").innerHTML = "false";
+        //     return;
+        // }
+        // let requestButton = document.getElementById("hid-device");
+        // requestButton.innerHTML = "welcome back! click here to connect the joystick";
+    
+    
+        // console.log("A gamepad connected. welcome back!");
+        // console.log(event.gamepad);
     });
+
+    navigator.getGamepads();
 
 }
 
@@ -208,22 +228,6 @@ export function start(mapInstance){
     });
 
 
-
-    window.addEventListener("gamepadconnected", (event) => {
-
-        // const first = document.getElementById("firstCinnection").innerHTML;
-
-        // if(first === "true"){
-        //     document.getElementById("firstCinnection").innerHTML = "false";
-        //     return;
-        // }
-        // let requestButton = document.getElementById("hid-device");
-        // requestButton.innerHTML = "welcome back! click here to connect the joystick";
-
-
-        // console.log("A gamepad connected. welcome back!");
-        //console.log(event.gamepad);
-    });
 
 }
 

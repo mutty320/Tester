@@ -20,45 +20,54 @@ const getRotation = (dir) => {
 };
 
 const ArrowSvg = styled.img`
-  position: absolute;
+  /* position: absolute;
   ${({ $top }) => $top && `top: ${$top}px`};
-  ${({ $left }) => $left && `left: ${$left}px`};
+  ${({ $left }) => $left && `left: ${$left}px`}; */
 `;
 
 const Arrow = styled(ArrowDownwardIcon)`
-  position: absolute;
-
-  ${({ $top }) => $top && `top: ${$top}px`};
-  ${({ $left }) => $left && `left: ${$left}px`};
-
   ${({ dir }) => dir && `transform: rotate(${getRotation(dir)}deg);`};
 `;
 
-const Line = styled.div`
+const Position = styled.div`
   position: absolute;
+  ${({ $top }) => $top && `top: ${$top}px`};
+  ${({ $left }) => $left && `left: ${$left}px`};
+`;
+
+const Line = styled.div`
   width: 40px;
   height: 2px;
   background: black;
 
-  ${({ $top }) => $top && `top: ${$top}px`};
-  ${({ $left }) => $left && `left: ${$left}px`};
-  ${({rotation }) => rotation && `transform: rotate(${rotation})`};
+  ${({ rotation }) => rotation && `transform: rotate(${rotation})`};
 `;
+
+const getType = (type) => {
+  switch (type) {
+    case 'line':
+      
+      break;
+    case 'value':
+
+      break;
+    default:
+      break;
+  }
+};
 
 const ArrowIcon = ({ top, left, dir, svg, line, rotation }) => {
   return (
     <Container>
-      {
-        line ? (
-          <Line $top={top} $left={left} rotation={rotation} />
+      <Position $top={top} $left={left}>
+        {line ? (
+          <Line rotation={rotation} />
+        ) : svg ? (
+          <ArrowSvg src={svg} />
         ) : (
-          svg ? (
-            <ArrowSvg $top={top} $left={left} src={svg} />
-          ) : (
-            <Arrow $top={top} $left={left} dir={dir} />
-          )
-        )
-      }
+          <Arrow dir={dir} />
+        )}
+      </Position>
     </Container>
   );
 };

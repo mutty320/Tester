@@ -14,12 +14,12 @@ import { start, Mapper, ACTION } from '../../Hid';
 import { KeyCode, MouseMove, SelectedCamera } from '../../contexts'
 
 const Row = styled.div`
-
+  border: 1px solid;
 `;
 
 const Container = styled.div`
   display: flex;
-  gap: 20px;
+  /* gap: 20px; */
 `;
 
 function mapNumber(n, start1, stop1, start2, stop2) {
@@ -340,18 +340,7 @@ const LayoutManager = ({
                 event={playBackEvent}
               />
           ) : (
-              <Container>
-                  <PageArrows onSubmit={() => console.log("Left clicked")} />
-                  <Row className="row">
-                    {
-                      buildLayoutView()
-                    }
-                  </Row>
-                  <PageArrows
-                      onSubmit={() => console.log("Right clicked")}
-                      right
-                  />
-              </Container>
+            <Container><Row className="row">{buildLayoutView()}</Row></Container>
           )}
       </>
   );

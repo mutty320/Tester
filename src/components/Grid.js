@@ -108,13 +108,15 @@ const Grid = (props) => {
   }
 
   return (
-    <div>
-      <LayoutManager
-        camerasGrid={camerasGrid}
-        currLayout={currLayout}
-        setSingleView={setSingleView}
-        setAmountVisibility={setAmountVisibility}
-      />
+    <>
+      <div className="container">
+          <LayoutManager
+            camerasGrid={camerasGrid}
+            currLayout={currLayout}
+            setSingleView={setSingleView}
+            setAmountVisibility={setAmountVisibility}
+          />
+      </div>
       {
         !hideDisplayOptions
         &&
@@ -123,7 +125,7 @@ const Grid = (props) => {
           currLayout={currLayout}
         />
       }
-    </div>
+    </>
   );
 };
 

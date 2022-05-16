@@ -48,9 +48,8 @@ const App = () => {
                   <>
                     <TreeView CameraGroups={cameraGroups} />
                     <div>
-                      <div className="container">
                         <Grid cameras={cameraGroups} />
-                      </div>
+
                     </div>
                   </>
                 )}

@@ -12,6 +12,7 @@ const Container = styled.div`
     border: 1px solid;
     padding: 10px;
     border-radius: 10px;
+    margin-right: 25px;
 `;
 
 const GroupsTitle = styled.h4`
