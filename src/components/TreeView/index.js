@@ -7,6 +7,7 @@ import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
+import CameraItem from './CameraItem';
 
 const Container = styled.div`
     border: 1px solid;
@@ -46,29 +47,21 @@ const CameraTreeView = ({
                   maxWidth: 600,
                   overflowY: "auto",
               }}
-            //   multiSelect
-              onNodeSelect={(event, nodeId) => {
-                console.log(nodeId);
-                const nodeIdInt = parseInt(nodeId);
-                
-                if (!isNaN(nodeIdInt)) {
-                    setCamera(nodeIdInt);
-                }
-              }}
           >
               {CameraGroups.map((group) => {
                   return (
                       <TreeItem
                           nodeId={`${group.Camera_group}`}
                           label={group.Camera_group}
+                          key={group.Camera_group}
                       >
                           {group.camera_items.map((camera) => (
-                              <TreeItem
-                                  nodeId={`${camera.id}`}
-                                  label={camera.name}
-                              >
-                                  <h1>TEST</h1>
-                              </TreeItem>
+
+                              <CameraItem
+                                name={camera.name}
+                                onSubmit={() => setCamera(camera.id)}
+                                key={camera.id}
+                              />
                           ))}
                       </TreeItem>
                   );
