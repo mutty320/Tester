@@ -165,11 +165,6 @@ const ControllerReference = () => {
         line
         // Left joystick button line
       />
-      <ArrowIcon
-        top="20"
-        left="20"
-        
-      />
       <Background>
         <JoyStickOutline>
           <JoyStick>

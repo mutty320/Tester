@@ -3,7 +3,6 @@ import React, {
   useContext,
   useEffect,
   useState,
-  useRef,
 } from 'react';
 import { zoomableContext } from 'react-zoomable-media-modified';
 import styled from 'styled-components';
@@ -20,12 +19,23 @@ const Video = forwardRef(
     const { videoRef, panMode, setPanMode, togglePlay } = VideoRef.useContainer();
 
     const [initialClick, setInitialClick] = useState(); // time of initialClick
+    const [importedFile, setImportedFile] = useState();
     const { setCamera } = SelectedCamera.useContainer();
 
     useEffect(() => {
       // by default pan mode is off
       setPanMode(false);
     }, [setPanMode]);
+
+    useEffect(() => {
+      if (url) {
+        if (!url.includes('http')) {
+          import(`../../../assets/videos/${url}`).then((value) => {
+            setImportedFile(value.default);
+          });
+        }
+      }
+    }, [url])
 
     useEffect(() => {
       if (event) {
@@ -111,7 +121,7 @@ const Video = forwardRef(
         ref={ref}
         onLoadedMetadata={onLoadedMetadata}
         controls={controls}
-        src={url}
+        src={importedFile || url}
       />
     );
   }

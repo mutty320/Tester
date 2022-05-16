@@ -20,9 +20,7 @@ const getRotation = (dir) => {
 };
 
 const ArrowSvg = styled.img`
-  /* position: absolute;
-  ${({ $top }) => $top && `top: ${$top}px`};
-  ${({ $left }) => $left && `left: ${$left}px`}; */
+
 `;
 
 const Arrow = styled(ArrowDownwardIcon)`
@@ -42,19 +40,6 @@ const Line = styled.div`
 
   ${({ rotation }) => rotation && `transform: rotate(${rotation})`};
 `;
-
-const getType = (type) => {
-  switch (type) {
-    case 'line':
-      
-      break;
-    case 'value':
-
-      break;
-    default:
-      break;
-  }
-};
 
 const ArrowIcon = ({ top, left, dir, svg, line, rotation }) => {
   return (

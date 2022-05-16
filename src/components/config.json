@@ -6,12 +6,12 @@
         {
           "name": "South corner",
           "id": 1,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot.mp4"
         },
         {
           "name": "North corner",
           "id": 2,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "warehouse_1.mp4"
         }
       ]
     },
@@ -22,7 +22,7 @@
         {
           "name": "East corner",
           "id": 3,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot_Outside.mp4"
         }
       ]
     },
@@ -32,7 +32,7 @@
         {
           "name": "West corner",
           "id": 4,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot_2.mp4"
         }
       ]
     },
@@ -42,7 +42,7 @@
         {
           "name": "West corner",
           "id": 5,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot_Outside.mp4"
         }
       ]
     },
@@ -52,7 +52,7 @@
         {
           "name": "West corner",
           "id": 6,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "warehouse_1.mp4"
         }
       ]
     },
@@ -62,7 +62,7 @@
         {
           "name": "West corner",
           "id": 7,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot.mp4"
         }
       ]
     },
@@ -72,7 +72,7 @@
         {
           "name": "West corner",
           "id": 8,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot_2.mp4"
         }
       ]
     },
@@ -82,7 +82,7 @@
         {
           "name": "West corner",
           "id": 9,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "warehouse_1.mp4"
         }
       ]
     },
@@ -92,7 +92,7 @@
         {
           "name": "West corner",
           "id": 10,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot.mp4"
         }
       ]
     },
@@ -102,7 +102,7 @@
         {
           "name": "West corner",
           "id": 11,
-          "video": "http://www.w3schools.com/html/mov_bbb.mp4"
+          "video": "Parking_Lot_Outside.mp4"
         }
       ]
     }
