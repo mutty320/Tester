@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { VideoRef } from '../../../contexts';
 
 import ExitButton from './ExitButton';
-import PanModeIndicator from './PanModeIndicator';
 import VideoControls from './VideoControls';
 
 const Container = styled.div`
@@ -18,7 +17,6 @@ const ControlOverlay = ({
 
   return (
     <Container>
-        <PanModeIndicator />
         <ExitButton
             onSubmit={() =>onClose()}
         />
@@ -28,4 +26,4 @@ const ControlOverlay = ({
   )
 }
 
-export default ControlOverlay
+export default ControlOverlay;

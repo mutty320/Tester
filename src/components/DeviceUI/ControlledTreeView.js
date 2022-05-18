@@ -7,7 +7,6 @@ import TreeItem from '@mui/lab/TreeItem';
 import Connection from './Connection';
 import ConnectionLabel from './Connection/ConnectionLabel';
 import { useDeviceConnection } from '../../contexts';
-import Reference from './Reference';
 
 export default function ControlledTreeView() {
   const [expanded, setExpanded] = React.useState([]);
@@ -62,9 +61,6 @@ export default function ControlledTreeView() {
           <Connection
             CloseView={closeConnectionView}
           />
-        </TreeItem>
-        <TreeItem nodeId="2" label="Reference">
-          <Reference />
         </TreeItem>
       </TreeView>
     </Box>
