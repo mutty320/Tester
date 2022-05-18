@@ -6,8 +6,8 @@ import { KeyCode, MouseMove, SelectedCamera, VideoRef, useDeviceConnection } fro
 
 // component imports
 import Grid from './components/Grid';
-import TreeView from './components/TreeView';
 import DeviceUI from './components/DeviceUI';
+import LeftView from './components/LeftView';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const fileData = require('./components/config'); //now f is an object holding array of objects
 console.log(fileData);
@@ -46,10 +46,11 @@ const App = () => {
               >
                 {cameraGroups.length > 0 && (
                   <>
-                    <TreeView CameraGroups={cameraGroups} />
+                    <LeftView
+                      cameraGroups={cameraGroups}
+                    />
                     <div>
                         <Grid cameras={cameraGroups} />
-
                     </div>
                   </>
                 )}

@@ -173,9 +173,6 @@ const ControllerReference = () => {
           </JoyStick>
         </JoyStickOutline>
         <ButtonsContainer>
-          {/* {
-            Array.from(Array(10).keys()).map(item => <ControllerButton key={item} />)
-          } */}
           <Column>
             <ControllerButton />
             <ControllerButton />

@@ -18,7 +18,12 @@ const CurrentMode = styled.div`
 `;
 
 const ToggleButtonContainer = styled.div`
+  width: 130px;
+  margin: 10px;
+`;
 
+const ToggleButton = styled(Button)`
+  font-size: .7rem !important;
 `;
 
 const Reference = () => {
@@ -32,11 +37,11 @@ const Reference = () => {
           {'Mode: ' + (panMode ? 'Pan/Zoom' : 'Playback')}
         </CurrentMode>
         <ToggleButtonContainer>
-          <Button variant="contained"
+          <ToggleButton variant="contained"
             onClick={() => {
               setPanMode(prev => !prev);
             }}
-          >Toggle Mode</Button>
+          >Toggle Mode</ToggleButton>
         </ToggleButtonContainer>
       </ModeContainer>
       <ControllerReference />
@@ -44,4 +49,4 @@ const Reference = () => {
   )
 }
 
-export default Reference
+export default Reference;

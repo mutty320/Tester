@@ -41,7 +41,6 @@ const CameraTreeView = ({
               defaultCollapseIcon={<ExpandMoreIcon />}
               defaultExpandIcon={<ChevronRightIcon />}
               sx={{
-                  height: 350,
                   width: 200,
                   flexGrow: 1,
                   maxWidth: 600,
