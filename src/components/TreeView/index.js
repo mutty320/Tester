@@ -47,6 +47,7 @@ const CameraTreeView = ({
                   overflowY: "auto",
               }}
           >
+              
               {CameraGroups.map((group) => {
                   return (
                       <TreeItem
@@ -56,11 +57,17 @@ const CameraTreeView = ({
                       >
                           {group.camera_items.map((camera) => (
 
-                              <CameraItem
-                                name={camera.name}
-                                onSubmit={() => setCamera(camera.id)}
+                            //   <CameraItem
+                            //     name={camera.name}
+                            //     onSubmit={() => setCamera(camera.id)}
+                            //     key={camera.id}
+                            //   />
+                            <TreeItem
+                                nodeId={`${camera.id}`}
+                                label={camera.name}
+                                onClick={() => setCamera(camera.id)}
                                 key={camera.id}
-                              />
+                            />
                           ))}
                       </TreeItem>
                   );
@@ -70,4 +77,4 @@ const CameraTreeView = ({
   );
 }
 
-export default CameraTreeView
+export default CameraTreeView;

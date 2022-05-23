@@ -5,7 +5,7 @@ const KeyCode = () => {
     const [keyCode, setKeyCode] = useState();
     const [trigger, setTrigger] = useState(false);  // trigger is needed if the same key is pressed twice
     const handleKeyPress = useCallback((event) => {
-        console.log(`Key pressed: ${event.key}`);
+        // console.log(`Key pressed: ${event.key}`);
         setKeyCode(event.key);
         setTrigger(prev => !prev); // toggle trigger
         setTimeout(() => {

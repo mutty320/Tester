@@ -9,7 +9,10 @@ export const LayoutSize = {
   _4x4: 16,
 }
 
-const Grid = (props) => {
+const Grid = ({
+  cameras,
+  setLayoutHovered
+}) => {
   const [camerasGrid, setCamerasGrid] = useState([]);
   const [largestLayout, setLargestLayout] = useState(4); //for updating the visibility property
   const [currLayout, setCurrLayout] = useState(4); //for updating the className dynamically
@@ -58,13 +61,13 @@ const Grid = (props) => {
   useEffect(() => {
     let tempCameras = [];
     let counter = 0;
-    for (let i in props.cameras) {
-      for (let x in props.cameras[i].camera_items) {
+    for (let i in cameras) {
+      for (let x in cameras[i].camera_items) {
         tempCameras.push({
-          id: props.cameras[i].camera_items[x].id,
+          id: cameras[i].camera_items[x].id,
           width: "390px",
           //controls
-          url: props.cameras[i].camera_items[x].video,
+          url: cameras[i].camera_items[x].video,
           visibility: counter < 4,
           hover: false
         });
@@ -115,6 +118,7 @@ const Grid = (props) => {
             currLayout={currLayout}
             setSingleView={setSingleView}
             setAmountVisibility={setAmountVisibility}
+            setLayoutHovered={setLayoutHovered}
           />
       </div>
       {

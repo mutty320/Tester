@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import './App.css';
 
 // context imports
-import { KeyCode, MouseMove, SelectedCamera, VideoRef, useDeviceConnection } from './contexts';
+import { KeyCode, MouseMove, SelectedCamera, VideoRef, useDeviceConnection, ActiveView } from './contexts';
 
 // component imports
 import Grid from './components/Grid';
@@ -24,8 +25,15 @@ console.log(fileData);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //================================================
+
+const GridContainer = styled.div`
+  ${({layoutHovered}) => layoutHovered && 'border: 3px solid #31fe39'};
+  transition: ease-in-out 200ms;
+`;
+
 const App = () => {
   const [cameraGroups, setCameraGroups] = useState([]);
+  const [layoutHovered, setLayoutHovered] = useState();
 
   useEffect(() => {
     const tempCameraGroups = [];
@@ -33,28 +41,39 @@ const App = () => {
     setCameraGroups(tempCameraGroups);
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setLayoutHovered();
+    }, 2000)
+    console.log(`layoutHovered: ${layoutHovered}`);
+  }, [layoutHovered])
+
   return (
     <KeyCode.Provider>
       <MouseMove.Provider>
         <SelectedCamera.Provider>
           <VideoRef.Provider>
             <useDeviceConnection.Provider>
-            <DeviceUI />
-              <div
-                className="container"
-                style={{ marginTop: '5rem', display: 'flex' }}
-              >
-                {cameraGroups.length > 0 && (
-                  <>
-                    <LeftView
-                      cameraGroups={cameraGroups}
-                    />
-                    <div>
-                        <Grid cameras={cameraGroups} />
-                    </div>
-                  </>
-                )}
-              </div>
+              <ActiveView.Provider>
+                <DeviceUI />
+                <div
+                  className="container"
+                  style={{ marginTop: '5rem', display: 'flex' }}
+                >
+                  {cameraGroups.length > 0 && (
+                    <>
+                      <LeftView
+                        cameraGroups={cameraGroups}
+                      />
+                      <GridContainer
+                        layoutHovered={layoutHovered}
+                      >
+                        <Grid cameras={cameraGroups} setLayoutHovered={setLayoutHovered} />
+                      </GridContainer>
+                    </>
+                  )}
+                </div>
+              </ActiveView.Provider>
             </useDeviceConnection.Provider>
           </VideoRef.Provider>
         </SelectedCamera.Provider>

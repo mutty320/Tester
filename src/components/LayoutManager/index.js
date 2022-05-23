@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 // component imports
 import { Camera, EmptyCamera } from "../Camera";
-import PageArrows from '../PageArrows';
 import SingleView from './SingleView';
 import { LayoutSize } from '../Grid';
 
@@ -11,7 +10,8 @@ import { LayoutSize } from '../Grid';
 import { start, Mapper, ACTION } from '../../Hid';
 
 // context imports
-import { KeyCode, MouseMove, SelectedCamera } from '../../contexts'
+import { ActiveView, KeyCode, MouseMove, SelectedCamera } from '../../contexts'
+import { ActiveMovement, ViewLabel } from '../../contexts/ActiveView';
 
 const Row = styled.div`
   border: 1px solid;
@@ -31,6 +31,7 @@ const LayoutManager = ({
     currLayout,
     setSingleView,
     setAmountVisibility,
+    setLayoutHovered
 }) => {
 
   const [defaultHoverDisabled, setDefaultHoverDisabled] = useState();
@@ -44,97 +45,110 @@ const LayoutManager = ({
   const [playBackEvent, setPlayBackEvent] = useState();
 
   const { cameraId, setCamera } = SelectedCamera.useContainer();
+  const { active, setActive, toggleActiveView } = ActiveView.useContainer();
   
   useEffect(() => {
-    const map = new Mapper();
+    if (active === ViewLabel.LAYOUT){
+      const map = new Mapper();
+  
+      map.register(ACTION.BUTTONS.FIRST, () => {
+          console.log("YAY! WORKING! First");
+          // View 2x2
+          setAmountVisibility(LayoutSize._2x2, true)
+      });
+      map.register(ACTION.BUTTONS.SECOND, () => {
+        // toggle active view
+        toggleActiveView();
+          console.log("YAY! WORKING! SECOND");
+      });
+      map.register(ACTION.BUTTONS.THIRD, () => {
+          console.log("YAY! WORKING! THIRD");
+          // View 3x3
+          setAmountVisibility(LayoutSize._3x3, true)
+      });
+      map.register(ACTION.BUTTONS.FOURTH, () => {
+          console.log("YAY! WORKING! FOURTH");
+      });
+      map.register(ACTION.BUTTONS.FIFTH, () => {
+          console.log("YAY! WORKING! FIFTH");
+          // View 4x4
+          setAmountVisibility(LayoutSize._4x4, true)
+      });
+      map.register(ACTION.BUTTONS.SIXTH, () => {
+          console.log("YAY! WORKING! SIXTH");
+      });
+      map.register(ACTION.BUTTONS.SEVENTH, () => {
+          console.log("YAY! WORKING! SEVENTH");
+      });
+      map.register(ACTION.BUTTONS.EIGHTH, () => {
+          console.log("YAY! WORKING! EIGHTH");
+      });
+      map.register(ACTION.BUTTONS.NINTH, () => {
+          console.log("YAY! WORKING! NINTH");
+      });
+      map.register(ACTION.BUTTONS.TENTH, () => {
+          console.log("YAY! WORKING! TENTH");
+      });
+      map.register(ACTION.BUTTONS.RIGHT_BUTTON_ON_STICK, () => {
+          console.log("RIGHT_BUTTON_ON_STICK");
+          setPlayBackEvent({ type: "RIGHT_BUTTON_ON_STICK" });
+          // close single view
+          // setCamera(-1);
+          console.log("RIGHT_BUTTON_ON_STICK")
+      });
+      map.register(ACTION.BUTTONS.LEFT_BUTTON_ON_STICK, () => {
+          console.log("LEFT_BUTTON_ON_STICK");
+          setPlayBackEvent({ type: "LEFT_BUTTON_ON_STICK" });
+          // select video if not in single view
+          if (!showSingleView) {
+            setCamera(hoverId)
+          }
+      });
+      map.register(ACTION.MOVEMENT.ROTATE_RIGHT, () => {
+          console.log("ROTATE_RIGHT");
+          setPlayBackEvent({type: "ROTATE_RIGHT", value: map.value});
+          // setCamera(hoverId);
+      });
+      map.register(ACTION.MOVEMENT.ROTATE_LEFT, () => {
+          console.log("ROTATE_LEFT");
+          setPlayBackEvent({type: "ROTATE_LEFT", value: map.value});
+      });
+      map.register(ACTION.MOVEMENT.FRONT, () => {
+        navigate("up", map.value);
+        setPlayBackEvent({type: "up", value: map.value});
+        // setActiveMovement(ActiveMovement.UP)
+        // console.log(map.value);
+      });
+      map.register(ACTION.MOVEMENT.BACK, () => {
+        // console.log(map.value);
+        navigate("down", map.value);
+        setPlayBackEvent({type: "down", value: map.value});
+      });
+      map.register(ACTION.MOVEMENT.RIGHT, () => {
+        console.log(map.value);
+        navigate("right", map.value);
+        setPlayBackEvent({type: "right", value: map.value});
+      });
+      map.register(ACTION.MOVEMENT.LEFT, () => {
+        // console.log(map.value);
+        navigate("left", map.value);
+        setPlayBackEvent({type: "left", value: map.value});
+      });
+      map.register(ACTION.NOTHING, () => {
+        setLastDirection(null);
+        setLastMoveTime(0);
+      });
+  
+      start(map);
+    }
+  }, [hoverId, active])
 
-    map.register(ACTION.BUTTONS.FIRST, () => {
-        console.log("YAY! WORKING! First");
-        // View 2x2
-        setAmountVisibility(LayoutSize._2x2, true)
-    });
-    map.register(ACTION.BUTTONS.SECOND, () => {
-        console.log("YAY! WORKING! SECOND");
-    });
-    map.register(ACTION.BUTTONS.THIRD, () => {
-        console.log("YAY! WORKING! THIRD");
-        // View 3x3
-        setAmountVisibility(LayoutSize._3x3, true)
-    });
-    map.register(ACTION.BUTTONS.FOURTH, () => {
-        console.log("YAY! WORKING! FOURTH");
-    });
-    map.register(ACTION.BUTTONS.FIFTH, () => {
-        console.log("YAY! WORKING! FIFTH");
-        // View 4x4
-        setAmountVisibility(LayoutSize._4x4, true)
-    });
-    map.register(ACTION.BUTTONS.SIXTH, () => {
-        console.log("YAY! WORKING! SIXTH");
-    });
-    map.register(ACTION.BUTTONS.SEVENTH, () => {
-        console.log("YAY! WORKING! SEVENTH");
-    });
-    map.register(ACTION.BUTTONS.EIGHTH, () => {
-        console.log("YAY! WORKING! EIGHTH");
-    });
-    map.register(ACTION.BUTTONS.NINTH, () => {
-        console.log("YAY! WORKING! NINTH");
-    });
-    map.register(ACTION.BUTTONS.TENTH, () => {
-        console.log("YAY! WORKING! TENTH");
-    });
-    map.register(ACTION.BUTTONS.RIGHT_BUTTON_ON_STICK, () => {
-        console.log("RIGHT_BUTTON_ON_STICK");
-        setPlayBackEvent({ type: "RIGHT_BUTTON_ON_STICK" });
-        // close single view
-        // setCamera(-1);
-        console.log("RIGHT_BUTTON_ON_STICK")
-    });
-    map.register(ACTION.BUTTONS.LEFT_BUTTON_ON_STICK, () => {
-        console.log("LEFT_BUTTON_ON_STICK");
-        setPlayBackEvent({ type: "LEFT_BUTTON_ON_STICK" });
-        // select video if not in single view
-        if (!showSingleView) {
-          setCamera(hoverId)
-        }
-    });
-    map.register(ACTION.MOVEMENT.ROTATE_RIGHT, () => {
-        console.log("ROTATE_RIGHT");
-        setPlayBackEvent({type: "ROTATE_RIGHT", value: map.value});
-        // setCamera(hoverId);
-    });
-    map.register(ACTION.MOVEMENT.ROTATE_LEFT, () => {
-        console.log("ROTATE_LEFT");
-        setPlayBackEvent({type: "ROTATE_LEFT", value: map.value});
-    });
-    map.register(ACTION.MOVEMENT.FRONT, () => {
-      navigate("up", map.value);
-      setPlayBackEvent({type: "up", value: map.value});
-      // console.log(map.value);
-    });
-    map.register(ACTION.MOVEMENT.BACK, () => {
-      // console.log(map.value);
-      navigate("down", map.value);
-      setPlayBackEvent({type: "down", value: map.value});
-    });
-    map.register(ACTION.MOVEMENT.RIGHT, () => {
-      // console.log(map.value);
-      navigate("right", map.value);
-      setPlayBackEvent({type: "right", value: map.value});
-    });
-    map.register(ACTION.MOVEMENT.LEFT, () => {
-      // console.log(map.value);
-      navigate("left", map.value);
-      setPlayBackEvent({type: "left", value: map.value});
-    });
-    map.register(ACTION.NOTHING, () => {
-      setLastDirection(null);
-      setLastMoveTime(0);
-    });
-
-    start(map);
-  }, [hoverId])
+  useEffect(() => {
+    if (active === ViewLabel.LAYOUT) {
+      console.log('active changed');
+      setLayoutHovered(true);
+    }
+  }, [active, setLayoutHovered]);
 
   const { mouseTrigger } = MouseMove.useContainer();
 
@@ -143,14 +157,15 @@ const LayoutManager = ({
   }, [mouseTrigger])
 
   const navigate = (direction, value, keyboard=false) => {
-    setDefaultHoverDisabled(true);  // disable mouse hover (since when calling this function were using the keyboard to navigate)
-
     // if hoverId undefined then current hover = 1 (or page item: 1)
     let currentHoverId = hoverId; // avoiding set state async
-    if (!hoverId) {
-      currentHoverId = 1;
+    if(active === ViewLabel.LAYOUT) {
+      setDefaultHoverDisabled(true);  // disable mouse hover (since when calling this function were using the keyboard to navigate)
+      
+      if (!hoverId) {
+        currentHoverId = 1;
+      }
     }
-
     
     if (!keyboard) { // indicating that navigate was called by controller
       if (direction === lastDirection && (!value || value <= 100)) {
@@ -165,26 +180,42 @@ const LayoutManager = ({
       setLastMoveTime(Date.now());
     }
 
-    let result;
+    console.log(`active: ${active}`)
+    if(active === ViewLabel.LAYOUT) {
+      
+      let result;
 
-    switch (direction) {
-      case 'up':
-        result = currentHoverId - Math.sqrt(currLayout);
+      switch (direction) {
+        case 'up':
+          result = currentHoverId - Math.sqrt(currLayout);
+          break;
+        case 'down':
+          result = currentHoverId + Math.sqrt(currLayout);
+          break;
+        case 'right':
+          result = currentHoverId + 1;
+          break;
+        case 'left':
+          result = currentHoverId - 1;
+          break;
+        default:
+          result = 0;
+      }
+      if (result > 0 && result <= visibleListLength) { // based on visible length
+        setHoverId(result);
+      }
+    } else {
+      // navigate tree view with controller
+      switch (direction) {
+        case 'up':
+          console.log('tree view up');
         break;
-      case 'down':
-        result = currentHoverId + Math.sqrt(currLayout);
-        break;
-      case 'right':
-        result = currentHoverId + 1;
-        break;
-      case 'left':
-        result = currentHoverId - 1;
-        break;
-      default:
-        result = 0;
-    }
-    if (result > 0 && result <= visibleListLength) { // based on visible length
-      setHoverId(result);
+        case 'down':
+          console.log('tree view down');
+          break;
+        default:
+          break;
+      }
     }
   };
   
@@ -248,7 +279,7 @@ const LayoutManager = ({
         setAmountVisibility(LayoutSize._4x4, true)
         break;
       default:
-        console.log('not an arrow key')
+        // console.log('not an arrow key')
     }
 
     if (keyCode === 'e') { // enable
@@ -350,4 +381,4 @@ const LayoutManager = ({
   );
 }
 
-export default LayoutManager
+export default LayoutManager;
