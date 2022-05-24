@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import './App.css';
 
 // context imports
-import { KeyCode, MouseMove, SelectedCamera, VideoRef, useDeviceConnection, ActiveView } from './contexts';
+import { KeyCode, MouseMove, SelectedCamera, VideoRef, useDeviceConnection, ActiveView, Controller } from './contexts';
 
 // component imports
 import Grid from './components/Grid';
@@ -55,24 +55,26 @@ const App = () => {
           <VideoRef.Provider>
             <useDeviceConnection.Provider>
               <ActiveView.Provider>
-                <DeviceUI />
-                <div
-                  className="container"
-                  style={{ marginTop: '5rem', display: 'flex' }}
-                >
-                  {cameraGroups.length > 0 && (
-                    <>
-                      <LeftView
-                        cameraGroups={cameraGroups}
-                      />
-                      <GridContainer
-                        layoutHovered={layoutHovered}
-                      >
-                        <Grid cameras={cameraGroups} setLayoutHovered={setLayoutHovered} />
-                      </GridContainer>
-                    </>
-                  )}
-                </div>
+                <Controller.Provider>
+                  <DeviceUI />
+                  <div
+                    className="container"
+                    style={{ marginTop: '5rem', display: 'flex' }}
+                  >
+                    {cameraGroups.length > 0 && (
+                      <>
+                        <LeftView
+                          cameraGroups={cameraGroups}
+                        />
+                        <GridContainer
+                          layoutHovered={layoutHovered}
+                        >
+                          <Grid cameras={cameraGroups} setLayoutHovered={setLayoutHovered} />
+                        </GridContainer>
+                      </>
+                    )}
+                  </div>
+                </Controller.Provider>
               </ActiveView.Provider>
             </useDeviceConnection.Provider>
           </VideoRef.Provider>

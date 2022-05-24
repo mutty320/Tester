@@ -4,7 +4,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeView from '@mui/lab/TreeView';
 import TreeItem from '@mui/lab/TreeItem';
-import CameraTreeView from '../TreeView';
 import Reference from './Reference';
 import ActiveView, { ViewLabel } from '../../contexts/ActiveView';
 import { ACTION, Mapper, start } from '../../Hid';
@@ -17,7 +16,7 @@ import { KeyCode, SelectedCamera } from '../../contexts';
 const selectableListDefault = ['v1', 'v2'];
 
 export default function ControlledTreeView({ cameraGroups, setHighlight }) {
-  const [expanded, setExpanded] = React.useState([]);
+  const [expanded, setExpanded] = React.useState(['v2']);
   const [selected, setSelected] = React.useState(['1']);
   // const [position, setPosition] = React.useState([0, 0]);
   // const [navLayer, setNavLayer] = React.useState('v');
@@ -33,6 +32,11 @@ export default function ControlledTreeView({ cameraGroups, setHighlight }) {
     if (active === ViewLabel.LEFT) {
       // highlight left view
       setHighlight(true);
+
+      // reset expanded and selectable in case user navigated before with arrow keys or clicks
+      setExpanded([]);
+      setPosition(0);
+      setSelectableList(selectableListDefault);
 
       const map = new Mapper();
       map.register(ACTION.BUTTONS.SECOND, () => {

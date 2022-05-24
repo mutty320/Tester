@@ -24,7 +24,9 @@ const ArrowSvg = styled.img`
 `;
 
 const Arrow = styled(ArrowDownwardIcon)`
+  transition: ease-in-out 200ms;
   ${({ dir }) => dir && `transform: rotate(${getRotation(dir)}deg);`};
+  ${({ highlight }) => highlight && 'color: #59afff !important;'};
 `;
 
 const Position = styled.div`
@@ -41,16 +43,17 @@ const Line = styled.div`
   ${({ rotation }) => rotation && `transform: rotate(${rotation})`};
 `;
 
-const ArrowIcon = ({ top, left, dir, svg, line, rotation }) => {
+const ArrowIcon = ({ top, left, dir, line, rotation, highlight, children }) => {
   return (
     <Container>
       <Position $top={top} $left={left}>
         {line ? (
           <Line rotation={rotation} />
-        ) : svg ? (
-          <ArrowSvg src={svg} />
+        ) : children ? (
+          // <ArrowSvg src={svg} />
+          children
         ) : (
-          <Arrow dir={dir} />
+          <Arrow dir={dir} highlight={highlight} />
         )}
       </Position>
     </Container>

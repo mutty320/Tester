@@ -10,7 +10,7 @@ import { LayoutSize } from '../Grid';
 import { start, Mapper, ACTION } from '../../Hid';
 
 // context imports
-import { ActiveView, KeyCode, MouseMove, SelectedCamera } from '../../contexts'
+import { ActiveView, Controller, KeyCode, MouseMove, SelectedCamera, VideoRef } from '../../contexts'
 import { ActiveMovement, ViewLabel } from '../../contexts/ActiveView';
 
 const Row = styled.div`
@@ -46,6 +46,19 @@ const LayoutManager = ({
 
   const { cameraId, setCamera } = SelectedCamera.useContainer();
   const { active, setActive, toggleActiveView } = ActiveView.useContainer();
+  const { setRegisteredAction } = Controller.useContainer();
+  const { setPanMode } = VideoRef.useContainer();
+
+  useEffect(() => {
+    if (!showSingleView) {
+      // LAYOUT view
+      setPanMode(true);
+    }
+  }, [showSingleView, setPanMode]);
+
+  useEffect(() => {
+    setPanMode(true);
+  }, [setPanMode]);
   
   useEffect(() => {
     if (active === ViewLabel.LAYOUT){
@@ -53,15 +66,18 @@ const LayoutManager = ({
   
       map.register(ACTION.BUTTONS.FIRST, () => {
           console.log("YAY! WORKING! First");
+          setRegisteredAction('1');
           // View 2x2
           setAmountVisibility(LayoutSize._2x2, true)
       });
       map.register(ACTION.BUTTONS.SECOND, () => {
         // toggle active view
+        setRegisteredAction('2');
         toggleActiveView();
           console.log("YAY! WORKING! SECOND");
       });
       map.register(ACTION.BUTTONS.THIRD, () => {
+        setRegisteredAction('3');
           console.log("YAY! WORKING! THIRD");
           // View 3x3
           setAmountVisibility(LayoutSize._3x3, true)
@@ -70,6 +86,7 @@ const LayoutManager = ({
           console.log("YAY! WORKING! FOURTH");
       });
       map.register(ACTION.BUTTONS.FIFTH, () => {
+        setRegisteredAction('5')
           console.log("YAY! WORKING! FIFTH");
           // View 4x4
           setAmountVisibility(LayoutSize._4x4, true)
@@ -90,13 +107,15 @@ const LayoutManager = ({
           console.log("YAY! WORKING! TENTH");
       });
       map.register(ACTION.BUTTONS.RIGHT_BUTTON_ON_STICK, () => {
-          console.log("RIGHT_BUTTON_ON_STICK");
+          setRegisteredAction('RIGHT_BUTTON_ON_STICK');
           setPlayBackEvent({ type: "RIGHT_BUTTON_ON_STICK" });
+
           // close single view
           // setCamera(-1);
           console.log("RIGHT_BUTTON_ON_STICK")
       });
       map.register(ACTION.BUTTONS.LEFT_BUTTON_ON_STICK, () => {
+        setRegisteredAction("LEFT_BUTTON_ON_STICK");
           console.log("LEFT_BUTTON_ON_STICK");
           setPlayBackEvent({ type: "LEFT_BUTTON_ON_STICK" });
           // select video if not in single view
@@ -105,31 +124,37 @@ const LayoutManager = ({
           }
       });
       map.register(ACTION.MOVEMENT.ROTATE_RIGHT, () => {
+        setRegisteredAction('rotate_right');
           console.log("ROTATE_RIGHT");
           setPlayBackEvent({type: "ROTATE_RIGHT", value: map.value});
           // setCamera(hoverId);
       });
       map.register(ACTION.MOVEMENT.ROTATE_LEFT, () => {
+        setRegisteredAction('rotate_left');
           console.log("ROTATE_LEFT");
           setPlayBackEvent({type: "ROTATE_LEFT", value: map.value});
       });
       map.register(ACTION.MOVEMENT.FRONT, () => {
+        setRegisteredAction('up');
         navigate("up", map.value);
         setPlayBackEvent({type: "up", value: map.value});
         // setActiveMovement(ActiveMovement.UP)
         // console.log(map.value);
       });
       map.register(ACTION.MOVEMENT.BACK, () => {
+        setRegisteredAction('down');
         // console.log(map.value);
         navigate("down", map.value);
         setPlayBackEvent({type: "down", value: map.value});
       });
       map.register(ACTION.MOVEMENT.RIGHT, () => {
+        setRegisteredAction('right');
         console.log(map.value);
         navigate("right", map.value);
         setPlayBackEvent({type: "right", value: map.value});
       });
       map.register(ACTION.MOVEMENT.LEFT, () => {
+        setRegisteredAction('left');
         // console.log(map.value);
         navigate("left", map.value);
         setPlayBackEvent({type: "left", value: map.value});
@@ -137,6 +162,7 @@ const LayoutManager = ({
       map.register(ACTION.NOTHING, () => {
         setLastDirection(null);
         setLastMoveTime(0);
+        setRegisteredAction('nothing');
       });
   
       start(map);
@@ -180,7 +206,6 @@ const LayoutManager = ({
       setLastMoveTime(Date.now());
     }
 
-    console.log(`active: ${active}`)
     if(active === ViewLabel.LAYOUT) {
       
       let result;

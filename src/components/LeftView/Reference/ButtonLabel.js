@@ -11,7 +11,9 @@ const LabelText = styled.div`
   border: 1px solid black;
   border-radius: 4px;
   padding: 0 4px;
-  background: white;
+  ${({highlight}) => highlight && 'transition: none !important'};
+  transition: ease-in-out ${({click}) => click ? '400ms' : '200ms'};
+  background: ${({highlight}) => highlight ? '#48ff54' : 'white' };
   font-size: .8rem;
 
   ${({$top}) => $top && `top: ${$top}px`};
@@ -23,7 +25,9 @@ const ButtonLabel = ({
   label,
   top,
   left,
-  maxWidth
+  maxWidth,
+  highlight,
+  click,
 }) => {
   return (
     <Container>
@@ -31,6 +35,8 @@ const ButtonLabel = ({
         $top={top}
         $left={left}
         $maxWidth={maxWidth}
+        highlight={highlight}
+        click={click}
       >
         { label || 'ButtonLabel' }
       </LabelText>

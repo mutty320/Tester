@@ -153,6 +153,11 @@ function addListeners() {
     navigator.hid.addEventListener('disconnect', ({device}) => {
         console.log(`HID disconnected: ${device.productName}`);
 
+        // disconnect from device
+        // if (deviceGlobal) {
+        //     deviceGlobal.close();
+        // }
+
         if (ConnectionInstance){
             ConnectionInstance.onDisconnectFunc();
         }
@@ -201,8 +206,6 @@ export function start(mapInstance){
             console.log(`HID: ${device.vendorId} ${device.productName} ${device.productId} ${device.opened}`);
         });
         var myDevice = findMyDeviceInList(devices);
-
-
 
         // if(!myDevice) {
             // let requestButton = document.getElementById("hid-device");
@@ -267,6 +270,11 @@ async function myDeviceDetails(myDevice) {
     await myDevice.open();
 
     console.log(myDevice.vendorId + " is opened?- " + myDevice.opened);
+
+    // if device open then should show that has active connection. (page refresh)
+    if (myDevice.opened && ConnectionInstance) {
+        ConnectionInstance.onConnectFunc();
+    }
 
     myDevice.addEventListener("inputreport", event => {
         const {data, device, reportId} = event;
