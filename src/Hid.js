@@ -8,7 +8,7 @@ const JOYSTICK = 1678;
 const MOUSE = 14648;
 let MapInstance;
 let ConnectionInstance;
-let firstConnection = true;
+// let firstConnection = true;
 
 
 //==========================================================================================
@@ -120,15 +120,6 @@ export const Connection = class {
 // map.register(ACTION.LEFT, ()=>{console.log("PUSHED LEFT")})
 // start(map);
 
-//
-// for (let k of Object.keys(ACTION))
-// {
-//     console.log("k: " + k )
-//     (k, ()=>{console.log(k)})
-//     map.execute(ACTION[k]);
-// }
-//
-
 //=========================================================================================
 //                  function findMyDeviceInList(devices)
 //=========================================================================================
@@ -174,11 +165,11 @@ function addListeners() {
         console.log(event.gamepad)
 
         // if first connection
-        if (!firstConnection) {
-            alert('Welcome back! Please reconnect ;)')
-        }
+        // if (!firstConnection) {
+        //     alert('Welcome back! Please reconnect ;)')
+        // }
 
-        firstConnection = false;
+        // firstConnection = false;
     });
 
     navigator.getGamepads();
@@ -202,23 +193,6 @@ export function start(mapInstance){
             console.log(`HID: ${device.vendorId} ${device.productName} ${device.productId} ${device.opened}`);
         });
         var myDevice = findMyDeviceInList(devices);
-
-        // if(!myDevice) {
-            // let requestButton = document.getElementById("hid-device");
-            // requestButton.innerHTML = "click here to add a new device";
-            // requestButton.style.cssText = `
-            //     border: 1px solid;
-            //     width: fit-content;
-            //     padding: 9px;
-            //     margin: 5px;
-            //     border-radius: 5px;
-            //     cursor: pointer;
-            // `;
-
-            // requestButton.addEventListener("click", new Connection().connect);
-        // }
-        // else
-        //     myDeviceDetails(myDevice)
 
         if(myDevice) {
             myDeviceDetails(myDevice);
@@ -286,18 +260,6 @@ async function myDeviceDetails(myDevice) {
     return true; // return wether the device was opened
 }
 
-// if (device.productId !== 28 && reportId !== 0) return;//?
-
-// console.log(new Uint8Array(event.data.buffer));
-
-
-// if (value === 0) return;
-
-//if(value===0)
-// console.log(data.buffer)
-//const someButtons = { 1: "22", 2: "23", 4: "25"};
-// console.log(`User pressed button ${value}.`);
-
 
 
 //==========================================================================================
@@ -351,16 +313,6 @@ const get_action = (data) => {
 
     }
 
-    // switch (data.getUint8(3)) {
-    //     case 1:
-    //         // console.log(`joystick pushed forward`)
-    //         if(data.getUint8(1) == 2 )
-    //         return ACTION.FRONT
-    //         j
-    //     case 3:
-    //         // console.log(`joystick pushed backward`)
-    //         return ACTION.BACK
-    // }
     switch (data.getUint8(3)) {
         case 0:
             return {
