@@ -8,6 +8,7 @@ const JOYSTICK = 1678;
 const MOUSE = 14648;
 let MapInstance;
 let ConnectionInstance;
+let firstConnection = true;
 
 
 //==========================================================================================
@@ -171,18 +172,13 @@ function addListeners() {
     {
         console.log("gamepadconnected");
         console.log(event.gamepad)
-        // const first = document.getElementById("firstCinnection").innerHTML;
-    
-        // if(first === "true"){
-        //     document.getElementById("firstCinnection").innerHTML = "false";
-        //     return;
-        // }
-        // let requestButton = document.getElementById("hid-device");
-        // requestButton.innerHTML = "welcome back! click here to connect the joystick";
-    
-    
-        // console.log("A gamepad connected. welcome back!");
-        // console.log(event.gamepad);
+
+        // if first connection
+        if (!firstConnection) {
+            alert('Welcome back! Please reconnect ;)')
+        }
+
+        firstConnection = false;
     });
 
     navigator.getGamepads();
