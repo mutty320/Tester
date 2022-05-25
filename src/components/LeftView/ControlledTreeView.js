@@ -59,6 +59,10 @@ export default function ControlledTreeView({ cameraGroups, setHighlight }) {
         // navigate('down');
         setRAction('down');
       });
+      map.register(ACTION.NOTHING, () => {
+        setRAction('nothing');
+      });
+
 
       start(map);
     }
@@ -79,11 +83,6 @@ export default function ControlledTreeView({ cameraGroups, setHighlight }) {
         break;
       default:
     }
-
-    // delay reset action
-    setTimeout(() => {
-      setRAction('nothing');
-    }, 100);
   }, [rAction]);
 
   React.useEffect(() => {
